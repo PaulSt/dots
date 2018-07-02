@@ -1,1 +1,12 @@
+# group
+common=common,vim,x
+
+# vim
 .vimrc:vim
+
+# xinit
+.xinitrc:x
+.fehbg:x
+.wallpaper.png:x
+.xscreensaver:x
+
