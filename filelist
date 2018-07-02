@@ -1,5 +1,5 @@
 # group
-common=common,vim,x
+common=common,vim,x,cal
 
 # vim
 .vimrc:vim
@@ -10,3 +10,6 @@ common=common,vim,x
 .wallpaper.png:x
 .xscreensaver:x
 
+# calcurse
+.calcurse/caldav/config_todo:cal
+.calcurse/caldav/config_cal:cal
