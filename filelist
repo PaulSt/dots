@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal
+common=common,vim,x,cal,pdf
 
 # vim
 .vimrc:vim
@@ -13,3 +13,6 @@ common=common,vim,x,cal
 # calcurse
 .calcurse/caldav/config_todo:cal
 .calcurse/caldav/config_cal:cal
+
+# zathura
+.config/zathura/zathurarc:pdf

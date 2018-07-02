@@ -66,7 +66,7 @@ set ffs=unix,dos,mac
 set mousehide
 
 " highlight entire line of curser
-set cursorline
+" set cursorline
 
 " Set 7 lines to the cursor - when moving vertically using j/k
 set scrolloff=7
@@ -119,6 +119,7 @@ augroup ProjectDrawer
     autocmd VimEnter * :Lexplore!
 augroup END
 set autochdir
+map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => nifty custom mappings
@@ -136,7 +137,7 @@ inoremap kj <esc>
 command! W w !sudo tee % > /dev/null
 
 " linenumbers
-set number relativenumber
+" set number relativenumber
 
 " copy to clipboard
 " set clipboard=unnamedplus
@@ -158,6 +159,6 @@ set tabstop=4
 " set linebreak
 " set textwidth=500
 
-set autoindent 
+" set autoindent 
 " set smartindent
 set wrap "Wrap lines
