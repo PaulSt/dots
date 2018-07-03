@@ -29,6 +29,15 @@ Plug 'morhetz/gruvbox'
 " buffers
 Plug 'bling/vim-bufferline'
 
+"tags
+Plug 'craigemery/vim-autotag'
+
+" startscreen
+Plug 'mhinz/vim-startify'
+
+" autocompletion
+Plug 'ajh17/VimCompletesMe'
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -54,19 +63,17 @@ set hidden
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-" duration vim waits for next key in command chain
-" set timeoutlen=300
-
-" Turn backup off
-" set nobackup
-" set nowb
-" set noswapfile
-
 " Hide mouse when typing
 set mousehide
 
 " highlight entire line of curser
 " set cursorline
+
+" linenumbers
+" set number relativenumber
+
+" copy to clipboard
+" set clipboard=unnamedplus
 
 " Set 7 lines to the cursor - when moving vertically using j/k
 set scrolloff=7
@@ -74,15 +81,13 @@ set scrolloff=7
 " search into subfolders when using :find
 set path+=**
 
-" Always show the status line
-" set laststatus=2
-
 " Turn on the Wild menu
-" set wildmenu
+set wildmenu
+" set wildmode=list:longest,full
 
 " Configure backspace so it acts as it should act
-" set backspace=eol,start,indent
-" set whichwrap+=<,>,h,l
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
 
 " Ignore case when searching
 set ignorecase
@@ -94,7 +99,7 @@ set smartcase
 set hlsearch
 
 " Makes search act like search in modern browsers
-" set incsearch 
+set incsearch 
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw 
@@ -106,20 +111,27 @@ set lazyredraw
 set showmatch 
 
 " How many tenths of a second to blink when matching brackets
-" set mat=2
+set mat=2
 
-" netrw (filer) settings
+" tab change window and set root to buffer location
+set autochdir
+map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
+
+" search for tag file
+set tags=tags;~
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => netrw (filer) settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 0
 let g:netrw_winsize = 15
-augroup ProjectDrawer
-    autocmd!
-    autocmd VimEnter * :Lexplore!
-augroup END
-set autochdir
-map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
+"augroup ProjectDrawer
+"    autocmd!
+"    autocmd VimEnter * :Lexplore!
+"augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => nifty custom mappings
@@ -136,11 +148,6 @@ inoremap kj <esc>
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
 
-" linenumbers
-" set number relativenumber
-
-" copy to clipboard
-" set clipboard=unnamedplus
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -156,9 +163,14 @@ set shiftwidth=4
 set tabstop=4
 
 " Linebreak on 500 characters
-" set linebreak
-" set textwidth=500
+set linebreak
+set textwidth=500
 
-" set autoindent 
-" set smartindent
-set wrap "Wrap lines
+set autoindent 
+set smartindent
+
+" wrap lines
+set wrap 
+
+" special behaviour in tex files
+let g:tex_indent_brace = 0
