@@ -1,0 +1,5 @@
+[user]
+	email = ping.paul@hotmail.com
+	name = Paul
+[core]
+	excludesfile = /home/paul/.gitignore_global
