@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal,pdf
+common=common,vim,x,cal,pdf,ctags
 
 # vim
 .vimrc:vim
@@ -16,3 +16,6 @@ common=common,vim,x,cal,pdf
 
 # zathura
 .config/zathura/zathurarc:pdf
+
+# ctags
+.ctags:ctags
