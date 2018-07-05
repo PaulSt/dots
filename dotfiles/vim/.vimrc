@@ -38,6 +38,19 @@ Plug 'mhinz/vim-startify'
 " autocompletion
 Plug 'ajh17/VimCompletesMe'
 
+" comments with <leader> cc
+Plug 'scrooloose/nerdcommenter'
+filetype plugin on
+
+" fast unite
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/unite.vim'
+Plug 'rstacruz/vim-fastunite'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/unite-outline'
+Plug 'tsukkee/unite-tag'
+map <C-p> [unite]p
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
