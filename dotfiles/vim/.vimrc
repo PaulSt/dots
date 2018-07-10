@@ -187,3 +187,37 @@ set wrap
 
 " special behaviour in tex files
 let g:tex_indent_brace = 0
+
+" Don't indent namespace and template
+function! CppNoNamespaceAndTemplateIndent()
+    let l:cline_num = line('.')
+    let l:cline = getline(l:cline_num)
+    let l:pline_num = prevnonblank(l:cline_num - 1)
+    let l:pline = getline(l:pline_num)
+    while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
+        let l:pline_num = prevnonblank(l:pline_num - 1)
+        let l:pline = getline(l:pline_num)
+    endwhile
+    let l:retv = cindent('.')
+    let l:pindent = indent(l:pline_num)
+    if l:pline =~# '^\s*template.*$'
+        let l:retv = l:pindent
+    "elseif l:pline =~# '\s*typename\s*.*,\s*$'
+    "    let l:retv = l:pindent
+    "elseif l:cline =~# '^\s*>\s*$'
+    "    let l:retv = l:pindent - &shiftwidth
+    "elseif l:pline =~# '\s*typename\s*.*>\s*$'
+    "    let l:retv = l:pindent - &shiftwidth
+    "elseif l:pline =~# '^\s*namespace.*'
+    "    let l:retv = 0
+    endif
+    return l:retv
+endfunction
+
+if has("autocmd")
+    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
+endif
+
+setlocal cindent
+" handle lambda correctly
+setlocal cino=j1,(0,ws,Ws
