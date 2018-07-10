@@ -218,6 +218,5 @@ if has("autocmd")
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
 
-setlocal cindent
 " handle lambda correctly
-setlocal cino=j1,(0,ws,Ws
+autocmd BufEnter *.cpp :setlocal cindent cino=j1,(0,ws,Ws
