@@ -26,10 +26,7 @@ endif
 " colorscheme
 Plug 'morhetz/gruvbox'
 
-" buffers
-Plug 'bling/vim-bufferline'
-
-"tags
+" tags
 Plug 'craigemery/vim-autotag'
 
 " startscreen
@@ -40,6 +37,8 @@ Plug 'ajh17/VimCompletesMe'
 
 " comments with <leader> cc
 Plug 'scrooloose/nerdcommenter'
+
+" allows for filetype detection
 filetype plugin on
 
 " fast unite
@@ -83,7 +82,8 @@ set mousehide
 " set cursorline
 
 " linenumbers
-" set number relativenumber
+set number relativenumber
+:nmap <C-N><C-N> :set invrelativenumber<CR>
 
 " copy to clipboard
 " set clipboard=unnamedplus
@@ -202,6 +202,8 @@ function! CppNoNamespaceAndTemplateIndent()
     let l:pindent = indent(l:pline_num)
     if l:pline =~# '^\s*template.*$'
         let l:retv = l:pindent
+    elseif l:pline =~# '^.*::\s*$'
+        let l:retv = l:pindent
     "elseif l:pline =~# '\s*typename\s*.*,\s*$'
     "    let l:retv = l:pindent
     "elseif l:cline =~# '^\s*>\s*$'
@@ -218,5 +220,16 @@ if has("autocmd")
     autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
 endif
 
-" handle lambda correctly
+" handle lambdafct indent correctly
 autocmd BufEnter *.cpp :setlocal cindent cino=j1,(0,ws,Ws
+
+" fct to remove trailing whitespaces
+function! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+" auto remove on save for these file types
+autocmd FileType sh,perl,python,cpp  :call <SID>StripTrailingWhitespaces()
