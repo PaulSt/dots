@@ -8,9 +8,9 @@ set nocompatible
 " => Install vim-plug
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -20,7 +20,7 @@ call plug#begin('~/.vim/plugged')
 
 " Automatically install missing plugins on startup
 if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
-autocmd VimEnter * PlugInstall | q
+    autocmd VimEnter * PlugInstall | q
 endif
 
 " colorscheme
@@ -38,17 +38,13 @@ Plug 'ajh17/VimCompletesMe'
 " comments with <leader> cc
 Plug 'scrooloose/nerdcommenter'
 
-" allows for filetype detection
-filetype plugin on
+" ctrlp fuzzy file, buffer,.. finder
+Plug 'ctrlpvim/ctrlp.vim'
 
-" fast unite
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/unite.vim'
-Plug 'rstacruz/vim-fastunite'
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite-outline'
-Plug 'tsukkee/unite-tag'
-map <C-p> [unite]p
+" buffers in tabline
+Plug 'ap/vim-buftabline'
+nnoremap <C-j> :bprev<CR>
+nnoremap <C-k> :bnext<CR>
 
 call plug#end()
 
@@ -79,7 +75,13 @@ set ffs=unix,dos,mac
 set mousehide
 
 " highlight entire line of curser
-" set cursorline
+set cursorline
+" Default Colors for CursorLine
+highlight  CursorLine cterm=underline ctermfg=darkblue ctermbg=none
+" Change Color when entering Insert Mode
+autocmd InsertEnter * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
+" Revert Color to default when leaving Insert Mode
+autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=darkblue ctermbg=none
 
 " linenumbers
 set number relativenumber
@@ -133,6 +135,9 @@ map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
 " search for tag file
 set tags=tags;~
 
+" allows for filetype detection
+filetype plugin on
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => netrw (filer) settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -156,7 +161,7 @@ noremap H ^
 " press j and k at the same time to get escape
 inoremap jk <esc>
 inoremap kj <esc>
- 
+
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
@@ -204,14 +209,14 @@ function! CppNoNamespaceAndTemplateIndent()
         let l:retv = l:pindent
     elseif l:pline =~# '^.*::\s*$'
         let l:retv = l:pindent
-    "elseif l:pline =~# '\s*typename\s*.*,\s*$'
-    "    let l:retv = l:pindent
-    "elseif l:cline =~# '^\s*>\s*$'
-    "    let l:retv = l:pindent - &shiftwidth
-    "elseif l:pline =~# '\s*typename\s*.*>\s*$'
-    "    let l:retv = l:pindent - &shiftwidth
-    "elseif l:pline =~# '^\s*namespace.*'
-    "    let l:retv = 0
+        "elseif l:pline =~# '\s*typename\s*.*,\s*$'
+        "    let l:retv = l:pindent
+        "elseif l:cline =~# '^\s*>\s*$'
+        "    let l:retv = l:pindent - &shiftwidth
+        "elseif l:pline =~# '\s*typename\s*.*>\s*$'
+        "    let l:retv = l:pindent - &shiftwidth
+        "elseif l:pline =~# '^\s*namespace.*'
+        "    let l:retv = 0
     endif
     return l:retv
 endfunction
