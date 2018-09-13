@@ -43,8 +43,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 
 " buffers in tabline
 Plug 'ap/vim-buftabline'
-nnoremap <C-j> :bprev<CR>
-nnoremap <C-k> :bnext<CR>
+nnoremap <C-h> :bprev<CR>
+nnoremap <C-l> :bnext<CR>
 
 call plug#end()
 
@@ -67,6 +67,11 @@ set autoread
 
 " A buffer becomes hidden when it is abandoned
 set hidden
+
+" Turn backup off
+set nobackup
+set nowritebackup
+set noswapfile
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -157,6 +162,12 @@ let g:netrw_winsize = 15
 " $ is  a pain. use L instead. i never use L anyways..
 noremap L $
 noremap H ^
+
+" ctrl+d, ctrl+u is unintuitive
+noremap J <C-d>
+noremap K <C-u>
+" save J
+noremap <c-j> J
 
 " press j and k at the same time to get escape
 inoremap jk <esc>

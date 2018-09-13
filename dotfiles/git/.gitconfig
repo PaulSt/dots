@@ -3,3 +3,4 @@
 	name = Paul
 [core]
 	excludesfile = /home/paul/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
