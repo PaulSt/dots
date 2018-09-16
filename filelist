@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git
+common=common,vim,x,cal,pdf,ctags,git,suckless
 
 # vim
 .vimrc:vim
@@ -23,3 +23,7 @@ common=common,vim,x,cal,pdf,ctags,git
 # git
 .gitconfig:git
 .gitignore_global:git
+
+# suckless
+src/dwm/config.h:suckless
+src/st/config.h:suckless

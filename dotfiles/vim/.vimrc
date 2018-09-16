@@ -41,6 +41,9 @@ Plug 'scrooloose/nerdcommenter'
 " ctrlp fuzzy file, buffer,.. finder
 Plug 'ctrlpvim/ctrlp.vim'
 
+" missing notion of vim
+Plug 'justinmk/vim-sneak'
+
 " buffers in tabline
 Plug 'ap/vim-buftabline'
 nnoremap <C-h> :bprev<CR>
