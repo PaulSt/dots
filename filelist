@@ -1,11 +1,8 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,suckless,zsh
+common=common,vim,x,cal,pdf,ctags,git,suckless
 
 # vim
 .vimrc:vim
-
-# shell
-.oh-my-zsh:zsh
 
 # xinit
 .xinitrc:x
