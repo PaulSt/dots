@@ -12,6 +12,8 @@ while true; do
 	sleep 60
 done &
 
+exec setxkbmap -layout de &
+
 ~/.fehbg &
 
-exec dwm 
+exec dwm
