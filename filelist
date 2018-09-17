@@ -1,5 +1,8 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,suckless
+common=common,vim,x,cal,pdf,ctags,git,suckless,zsh
+
+# zsh
+.zshrc:zsh
 
 # vim
 .vimrc:vim
