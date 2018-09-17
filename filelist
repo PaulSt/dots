@@ -30,3 +30,4 @@ common=common,vim,x,cal,pdf,ctags,git,suckless,zsh
 # suckless
 src/dwm/config.h:suckless
 src/st/config.h:suckless
+src/st/x.c:suckless
