@@ -96,6 +96,7 @@ source $ZSH/oh-my-zsh.sh
 # alias calcurse-sync='/usr/local/bin/calcurse-sync.sh'
 export UNI=/home/paul/Dropbox/uni
 export PHD=/home/paul/Dropbox/uni/phd
+export PATH=/home/paul/bin:$PATH
 
 export NETGENDIR=/home/paul/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
