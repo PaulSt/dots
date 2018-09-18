@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,suckless,zsh,mutt
+common=common,vim,x,cal,pdf,ctags,git,zsh,mutt
 
 # zsh
 .zshrc:zsh
@@ -26,10 +26,6 @@ common=common,vim,x,cal,pdf,ctags,git,suckless,zsh,mutt
 # git
 .gitconfig:git
 .gitignore_global:git
-
-# suckless
-src/dwm/config.h:suckless
-src/st/config.h:suckless
 
 # mutt
 .muttrc:mutt
