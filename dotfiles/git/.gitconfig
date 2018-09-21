@@ -2,5 +2,5 @@
 	email = ping.paul@hotmail.com
 	name = Paul
 [core]
-	excludesfile = /home/paul/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
