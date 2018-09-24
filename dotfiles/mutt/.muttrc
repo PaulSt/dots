@@ -58,6 +58,7 @@ color index brightcyan black ~N
 # Hmm, don't like this.
 # color index brightgreen black "~N (~x byers.world)|(~x byers.x)|(~x langly.levallois123.axialys.net)|(~x the.earth.li)"
 color index brightyellow black ~F
+color index green black ~O
 color index black green ~T
 color index brightred black ~D
 mono index bold ~N
@@ -137,3 +138,6 @@ mono indicator reverse
 alias axel Axel Böhm <axel.boehm@univie.ac.at>
 alias ilaria Ilaria Perugia <ilaria.perugia@univie.ac.at>
 alias laura Laura Kanzler <laura.kanzler@univie.ac.at>
+
+
+
