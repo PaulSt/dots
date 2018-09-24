@@ -11,7 +11,6 @@ common=common,vim,x,cal,pdf,ctags,git,zsh,mutt
 .xinitrc:x
 .fehbg:x
 .wallpaper.png:x
-.xscreensaver:x
 
 # calcurse
 .calcurse/caldav/config_todo:cal
