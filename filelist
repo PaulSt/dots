@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat
+common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat,bin
 
 # zsh
 .zshrc:zsh
@@ -29,6 +29,10 @@ common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat
 # mutt
 .muttrc:mutt
 
-#newsboat
+# newsboat
 .newsboat/config:newsboat
 .newsboat/urls:newsboat
+
+# bin
+bin/calcurse-sync:bin
+bin/xrandr_vga:bin
