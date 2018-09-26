@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,zsh,mutt
+common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat
 
 # zsh
 .zshrc:zsh
@@ -28,3 +28,7 @@ common=common,vim,x,cal,pdf,ctags,git,zsh,mutt
 
 # mutt
 .muttrc:mutt
+
+#newsboat
+.newsboat/config:newsboat
+.newsboat/urls:newsboat

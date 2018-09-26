@@ -1,0 +1,60 @@
+auto-reload yes
+datetime-format "%F" 
+browser "firefox %u" 
+
+########################
+# keys
+########################
+
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
+
+#bind-key j next articlelist
+#bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key G end
+bind-key g home
+bind-key d pagedown
+bind-key u pageup
+bind-key a toggle-article-read
+bind-key n next-unread
+bind-key N prev-unread
+bind-key D pb-download
+bind-key U show-urls
+bind-key x pb-delete
+
+
+########################
+# colors
+########################
+
+color listnormal            color244    default
+color listfocus             color244    color237
+color listnormal_unread     color253    default
+color listfocus_unread      color166     color237
+#color info                  color117    color239    bold
+color info                  color235    color0    bold
+#color article               color247    default
+
+########################
+# highlights
+########################
+
+# title
+highlight article "^(Title):(.*)" color172 default
+
+# links
+# highlight article "https?://[^\" ]+" red default
+
+# names of authors in arxiv
+highlight article "\">[^\"]+" red default
+
+# flagged articles
+highlight all "(.*)!(.*)\d(.*)" green default
+
+#don't show "arXiv" everywhere
+highlight all "\\(arXiv(.*)\)" color235 default
+#highlight feedlist "\(arXiv(.*)" color235 color0
