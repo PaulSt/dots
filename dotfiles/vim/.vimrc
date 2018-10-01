@@ -219,7 +219,7 @@ function! CppNoNamespaceAndTemplateIndent()
     endwhile
     let l:retv = cindent('.')
     let l:pindent = indent(l:pline_num)
-    if l:pline =~# '^\s*template.*$'
+    if l:pline =~# '^\s*template<.*$'
         let l:retv = l:pindent
     elseif l:pline =~# '^.*::\s*$'
         let l:retv = l:pindent
