@@ -46,3 +46,4 @@ set recolor-darkcolor           "#ebdbb2"
 
 set recolor                     "true"
 set recolor-keephue "false"
+map <C-r> recolor

@@ -94,6 +94,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # alias calcurse-sync='/usr/local/bin/calcurse-sync.sh'
+alias ct='cd ~/projects/trefftzngs'
 export UNI=/home/paul/Dropbox/uni
 export PHD=/home/paul/Dropbox/uni/phd
 export PATH=/home/paul/bin:$PATH
