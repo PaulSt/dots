@@ -1,4 +1,6 @@
 #!/bin/sh
-xrandr --output VGA1 --auto --above LVDS1
-xrandr --output LVDS1 --off
+vga=$(xrandr | grep -o "VGA\S*")
+lvds=$(xrandr | grep -o "LVDS\S*")
+xrandr --output $vga --auto --above $lvds
+xrandr --output $lvds --off
 feh --bg-scale '/home/paul/.wallpaper.png'

@@ -44,6 +44,10 @@ Plug 'ctrlpvim/ctrlp.vim'
 " missing notion of vim
 Plug 'justinmk/vim-sneak'
 
+" org-mode
+Plug 'jceb/Vim-OrgMode'
+Plug 'tpope/vim-speeddating'
+
 " buffers in tabline
 Plug 'ap/vim-buftabline'
 nnoremap <C-h> :bprev<CR>
