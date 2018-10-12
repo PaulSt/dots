@@ -5,7 +5,7 @@ dir="$1"
 # No directory has been provided, use current
 if [ -z "$dir" ]
 then
-    dir="`pwd`"
+    dir=$HOME #or default to current dir: "`pwd`"
 fi
 
 function recursedir()
