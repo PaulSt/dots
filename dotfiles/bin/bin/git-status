@@ -2,7 +2,7 @@
 
 dir="$1"
 
-# No directory has been provided, use current
+# No directory has been provided, use home
 if [ -z "$dir" ]
 then
     dir=$HOME #or default to current dir: "`pwd`"
