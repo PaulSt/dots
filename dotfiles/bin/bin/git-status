@@ -19,14 +19,14 @@ function recursedir()
     fi
 
     # Loop all sub-directories
-    for f in $dir 
+    for f in $dir
     do
         # Only interested in directories
         [ -d "${f}" ] || continue
 
 
         # Check if directory is a git repository
-        if [ -d "$f/.git" ] 
+        if [ -d "$f/.git" ]
         then
             echo -en "\033[0;35m"
             echo "${f}"
@@ -35,7 +35,7 @@ function recursedir()
             cd $f
 
             # Check for modified files
-            if [ $(git status | grep modified -c) -ne 0 ] 
+            if [ $(git status | grep modified -c) -ne 0 ]
             then
                 mod=1
                 echo -en "\033[0;31m"
@@ -44,7 +44,7 @@ function recursedir()
             fi
 
             # Check for untracked files
-            if [ $(git status | grep Untracked -c) -ne 0 ] 
+            if [ $(git status | grep Untracked -c) -ne 0 ]
             then
                 mod=1
                 echo -en "\033[0;31m"
@@ -52,8 +52,24 @@ function recursedir()
                 echo -en "\033[0m"
             fi
 
+            # Check for commits
+            if [ $(git status | grep ahead -c) -ne 0 ]
+            then
+                mod=1
+                echo -en "\033[0;31m"
+                echo "Needs Push"
+                echo -en "\033[0m"
+                read -r -p "Do you want to push? [Y/n] " response
+                if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$|^$ ]]
+                then
+                    $(git push)
+                else
+                    echo "ok"
+                fi
+            fi
+
             # Check if everything is peachy keen
-            if [ $mod -eq 0 ] 
+            if [ $mod -eq 0 ]
             then
                 echo "Nothing to commit"
             fi
