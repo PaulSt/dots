@@ -1,6 +1,24 @@
 #!/bin/bash
 
-dir="$1"
+p_flag=''
+dir=''
+
+print_usage() {
+    printf "Search for git repos, show status and offer push if needed.
+    Use -p flag to check if pull is required. 
+    Use -d {dir} flag to define directory for the search, else $HOME is used."
+}
+
+while getopts 'hpd:' flag; do
+    case "${flag}" in
+        p) p_flag='true' ;;
+        d) dir="${OPTARG}" ;;
+        h) print_usage 
+            exit 1;;
+        *) print_usage
+            exit 1 ;;
+    esac
+done
 
 # No directory has been provided, use home
 if [ -z "$dir" ]
@@ -65,6 +83,25 @@ function recursedir()
                     $(git push)
                 else
                     echo "ok"
+                fi
+            fi
+
+            # Check if up to date
+            if [ $p_flag = true ] ; then
+                $(git remote update)
+                if [ $(git status | grep behind -c) -ne 0 ]
+                then
+                    mod=1
+                    echo -en "\033[0;31m"
+                    echo "Pull awailable"
+                    echo -en "\033[0m"
+                    read -r -p "Do you want to pull? [Y/n] " response
+                    if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$|^$ ]]
+                    then
+                        $(git pull)
+                    else
+                        echo "ok"
+                    fi
                 fi
             fi
 
