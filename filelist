@@ -35,4 +35,5 @@ common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat,bin
 
 # bin
 bin/calcurse-sync:bin
-bin/xrandr_vga:bin
+bin/xrandr-vga:bin
+bin/git-status:bin
