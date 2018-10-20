@@ -95,11 +95,11 @@ source $ZSH/oh-my-zsh.sh
 
 # alias calcurse-sync='/usr/local/bin/calcurse-sync.sh'
 alias ct='cd ~/projects/trefftzngs'
-export UNI=/home/paul/Dropbox/uni
-export PHD=/home/paul/Dropbox/uni/phd
-export PATH=/home/paul/bin:$PATH
+export UNI=~/Dropbox/uni
+export PHD=~/Dropbox/uni/phd
+export PATH=~/bin:$PATH
 
-export NETGENDIR=/home/paul/ngsuite/ngsolve-install/bin
+export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
 export PYTHONPATH=$NETGENDIR/../lib/python3.7/site-packages:$PATH
 
@@ -107,9 +107,9 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 export GTAGSLABEL=pygments
 
-export PATH=/home/paul/.local/bin:$PATH
-export PATH=/home/paul/.local/lib:$PATH
-export PYTHONPATH=/home/paul/.local/lib:$PYTHONPATH:$PATH
+export PATH=~/.local/bin:$PATH
+export PATH=~/.local/lib:$PATH
+export PYTHONPATH=~/.local/lib:$PYTHONPATH:$PATH
 
 autoload -U add-zsh-hook
 add-zsh-hook -Uz chpwd (){ ls; }
