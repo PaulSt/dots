@@ -1,6 +1,7 @@
 " set leader (has to be before any leader command is defined)
 nnoremap <space> <Nop>
 let mapleader = " "
+let maplocalleader = "+"
 " Necesary for lots of cool vim things
 set nocompatible
 
@@ -97,7 +98,7 @@ autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=lightblue cte
 
 " linenumbers
 set number relativenumber
-:nmap <C-N><C-N> :set invrelativenumber<CR>
+nmap <C-N><C-N> :set invrelativenumber<CR>
 
 " copy to clipboard
 " set clipboard=unnamedplus
