@@ -185,6 +185,11 @@ inoremap kj <esc>
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
 
+" open latex pdf
+map <leader>p :!zathura <c-r>%<backspace><backspace><backspace>pdf &<CR><CR>
+
+" map / to - for faster search on german keyboard
+noremap - /
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
