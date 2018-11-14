@@ -45,6 +45,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 " missing notion of vim
 Plug 'justinmk/vim-sneak'
 
+" async run cmnds
+Plug 'skywind3000/asyncrun.vim'
+
 " org-mode
 Plug 'jceb/Vim-OrgMode'
 Plug 'tpope/vim-speeddating'
@@ -90,11 +93,11 @@ set mousehide
 " highlight entire line of curser
 set cursorline
 " Default Colors for CursorLine
-highlight  CursorLine cterm=underline ctermfg=lightblue ctermbg=none
+highlight  CursorLine cterm=underline ctermfg=none ctermbg=none
 " Change Color when entering Insert Mode
 autocmd InsertEnter * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
 " Revert Color to default when leaving Insert Mode
-autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=lightblue ctermbg=none
+autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
 
 " linenumbers
 set number relativenumber
@@ -185,11 +188,13 @@ inoremap kj <esc>
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
 
-" open latex pdf
-map <leader>p :!zathura <c-r>%<backspace><backspace><backspace>pdf &<CR><CR>
-
 " map / to - for faster search on german keyboard
 noremap - /
+
+" LaTeX
+map <leader>p :!zathura <c-r>%<backspace><backspace><backspace>pdf &<CR><CR>
+autocmd FileType tex nnoremap <leader>, :w <cr>:AsyncRun texi2pdf % <cr>
+let g:tex_flavor='latex'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related

@@ -87,23 +87,23 @@ function recursedir()
             fi
 
             # Check if up to date
-            if [ "$p_flag" == true ] ; then
-                $(git remote update)
-                if [ $(git status | grep behind -c) -ne 0 ]
+            #if [ "$p_flag" == true ] ; then
+            $(git remote update > /dev/null)
+            if [ $(git status | grep behind -c) -ne 0 ]
+            then
+                mod=1
+                echo -en "\033[0;31m"
+                echo "Pull awailable"
+                echo -en "\033[0m"
+                read -r -p "Do you want to pull? [Y/n] " response
+                if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$|^$ ]]
                 then
-                    mod=1
-                    echo -en "\033[0;31m"
-                    echo "Pull awailable"
-                    echo -en "\033[0m"
-                    read -r -p "Do you want to pull? [Y/n] " response
-                    if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$|^$ ]]
-                    then
-                        $(git pull)
-                    else
-                        echo "ok"
-                    fi
+                    $(git pull)
+                else
+                    echo "ok"
                 fi
             fi
+            #fi
 
             # Check if everything is peachy keen
             if [ $mod -eq 0 ]
