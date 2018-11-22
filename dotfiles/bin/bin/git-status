@@ -93,7 +93,7 @@ function recursedir()
             then
                 mod=1
                 echo -en "\033[0;31m"
-                echo "Pull awailable"
+                echo "Pull available"
                 echo -en "\033[0m"
                 read -r -p "Do you want to pull? [Y/n] " response
                 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$|^$ ]]
