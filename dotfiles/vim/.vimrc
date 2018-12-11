@@ -104,7 +104,7 @@ set number relativenumber
 nmap <C-N><C-N> :set invrelativenumber<CR>
 
 " copy to clipboard
-" set clipboard=unnamedplus
+ set clipboard=unnamedplus
 
 " Set 7 lines to the cursor - when moving vertically using j/k
 set scrolloff=7
@@ -193,7 +193,7 @@ noremap - /
 
 " LaTeX
 map <leader>p :!zathura <c-r>%<backspace><backspace><backspace>pdf &<CR><CR>
-autocmd FileType tex nnoremap <leader>, :w <cr>:AsyncRun texi2pdf % <cr>
+autocmd FileType tex nnoremap <leader>, :w <cr>:AsyncRun pdflatex % <cr>
 let g:tex_flavor='latex'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

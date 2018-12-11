@@ -3,7 +3,7 @@
 ###############################################################
 
 set imap_user=stockerp31
-set imap_pass=`pass web/www.univie.ac.at/stockerp31`
+set imap_pass=`pass uni/www.univie.ac.at/stockerp31`
 set folder=imaps://stockerp31@imap.univie.ac.at:993/
 set spoolfile=+INBOX
 mailboxes       =+INBOX
