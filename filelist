@@ -1,5 +1,5 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat,bin
+common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat,bin,games
 
 # zsh
 .zshrc:zsh
@@ -37,3 +37,9 @@ common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat,bin
 bin/calcurse-sync:bin
 bin/xrandr-vga:bin
 bin/git-status:bin
+
+#games
+.dwarffortress/data/art/kruggs.png
+.dwarffortress/data/init/init.txt
+.dwarffortress/data/init/colors.txt
+
