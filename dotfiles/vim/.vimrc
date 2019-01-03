@@ -91,9 +91,9 @@ set ffs=unix,dos,mac
 set mousehide
 
 " highlight entire line of curser
-"set cursorline
+set cursorline
 " Default Colors for CursorLine
-"highlight  CursorLine cterm=underline ctermfg=none ctermbg=none
+highlight  CursorLine cterm=underline ctermfg=none ctermbg=none
 " Change Color when entering Insert Mode
 autocmd InsertEnter * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
 " Revert Color to default when leaving Insert Mode
