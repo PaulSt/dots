@@ -58,3 +58,10 @@ highlight all "(.*)!(.*)\d(.*)" green default
 #don't show "arXiv" everywhere
 highlight all "\\(arXiv(.*)\)" color235 default
 #highlight feedlist "\(arXiv(.*)" color235 color0
+
+# show buzzwords
+highlight all "Galerkin" color172 default
+highlight all "Virtual Element" color172 default
+highlight all "Finite Element" color172 default
+
+

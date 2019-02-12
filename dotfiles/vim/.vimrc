@@ -28,7 +28,8 @@ endif
 Plug 'morhetz/gruvbox'
 
 " tags
-Plug 'craigemery/vim-autotag'
+"Plug 'craigemery/vim-autotag'
+Plug 'ludovicchabant/vim-gutentags'
 
 " startscreen
 Plug 'mhinz/vim-startify'
@@ -47,6 +48,10 @@ Plug 'justinmk/vim-sneak'
 
 " async run cmnds
 Plug 'skywind3000/asyncrun.vim'
+
+" snippets
+Plug 'KeyboardFire/vim-minisnip'
+let g:minisnip_trigger = '<C-k>'
 
 " org-mode
 Plug 'jceb/Vim-OrgMode'
