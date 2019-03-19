@@ -46,8 +46,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 " missing notion of vim
 Plug 'justinmk/vim-sneak'
 
-" async run cmnds
-Plug 'skywind3000/asyncrun.vim'
+" latex
+Plug 'lervag/vimtex'
 
 " snippets
 Plug 'KeyboardFire/vim-minisnip'
@@ -195,11 +195,6 @@ command! W w !sudo tee % > /dev/null
 
 " map / to - for faster search on german keyboard
 noremap - /
-
-" LaTeX
-map <leader>p :!zathura <c-r>%<backspace><backspace><backspace>pdf &<CR><CR>
-autocmd FileType tex nnoremap <leader>, :w <cr>:AsyncRun pdflatex % <cr>
-let g:tex_flavor='latex'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
