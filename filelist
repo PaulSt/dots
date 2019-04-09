@@ -1,8 +1,9 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,zsh,mutt,newsboat,bin,games
+common=common,vim,x,cal,pdf,ctags,git,shell,mutt,newsboat,bin,games
 
-# zsh
-.zshrc:zsh
+# shell
+.zshrc:shell
+.bashrc:shell
 
 # vim
 .vimrc:vim
