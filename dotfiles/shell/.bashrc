@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+bind '"\e[A": history-search-backward'            # arrow up
+bind '"\e[B": history-search-forward'             # arrow down
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -82,4 +84,4 @@ function parse_git_dirty {
 	fi
 }
 
-export PS1="\[\e[1;32m\]\h\[\e[m\]\[\e[1;32m\]:\[\e[m\] \[\e[1;36m\]\W\[\e[m\] \[\e[1;31m\]\`parse_git_branch\`\[\e[m\] \[\e[1;32m\]\\$\[\e[m\] "
+export PS1="\[\e[1;32m\]\h\[\e[m\]\[\e[1;32m\]:\[\e[m\] \[\e[1;36m\]\W\[\e[m\] \[\e[1;31m\]\`parse_git_branch\`\[\e[m\]\[\e[1;32m\]\\$\[\e[m\] "
