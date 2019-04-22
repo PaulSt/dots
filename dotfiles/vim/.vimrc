@@ -238,6 +238,8 @@ function! CppNoNamespaceAndTemplateIndent()
         let l:retv = l:pindent
     elseif l:pline =~# '^.*::\s*$'
         let l:retv = l:pindent
+    elseif l:pline =~# '^\s*HD NGS_DLL_HEADER$'
+        let l:retv = l:pindent
         "elseif l:pline =~# '\s*typename\s*.*,\s*$'
         "    let l:retv = l:pindent
         "elseif l:cline =~# '^\s*>\s*$'
