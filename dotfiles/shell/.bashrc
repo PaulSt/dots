@@ -27,6 +27,9 @@ export PATH=~/.local/bin:$PATH
 export PATH=~/.local/lib:$PATH
 export PYTHONPATH=~/.local/lib:$PYTHONPATH:$PATH
 
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
 bind 'set show-all-if-unmodified on'
