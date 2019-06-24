@@ -36,6 +36,8 @@ set imap_keepalive = 300
 # How often to check for new mail (time in seconds).
 set mail_check = 120
 
+# Group reply
+bind index,pager \e05r group-reply # Control-r
 ###############################################################
 # vim keybindings
 ###############################################################
@@ -138,9 +140,6 @@ mono indicator reverse
 alias axel Axel Böhm <axel.boehm@univie.ac.at>
 alias ilaria Ilaria Perugia <ilaria.perugia@univie.ac.at>
 alias laura Laura Kanzler <laura.kanzler@univie.ac.at>
-
-
-
 alias mobile-print.mathematik Mobile-print Mathematik <mobile-print.mathematik@univie.ac.at>
 alias annalisa.iuorio Annalisa Iuorio <annalisa.iuorio@asc.tuwien.ac.at>
 alias josef.hofbauer Josef Hofbauer <josef.hofbauer@univie.ac.at>
