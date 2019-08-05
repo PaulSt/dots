@@ -1,3 +1,11 @@
 tags
 *.o
 *.ipynb_checkpoints
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.gz
+*.aux
+octave-workspace
+__pycache__/*
