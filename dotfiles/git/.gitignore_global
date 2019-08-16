@@ -9,3 +9,5 @@ tags
 *.aux
 octave-workspace
 __pycache__/*
+*.lock
+*.zip
