@@ -8,9 +8,20 @@ bind '"\e[B": history-search-forward'             # arrow down
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-alias ct='cd ~/projects/tdgtp/'
 alias l='ls -all --color=auto'
 alias nh='nohup'
+
+bind TAB:menu-complete
+bind 'set show-all-if-ambiguous on'
+bind 'set show-all-if-unmodified on'
+bind 'set menu-complete-display-prefix on'
+bind 'set completion-ignore-case on'
+
+function cd {
+    builtin cd "$@" && ls -F
+    }
+
+alias ct='cd ~/projects/tdgtp/'
 export UNI=~/Dropbox/uni
 export PHD=~/Dropbox/uni/phd
 export PATH=~/bin:$PATH
@@ -29,16 +40,6 @@ export PYTHONPATH=~/.local/lib:$PYTHONPATH:$PATH
 
 export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
-
-bind TAB:menu-complete
-bind 'set show-all-if-ambiguous on'
-bind 'set show-all-if-unmodified on'
-bind 'set menu-complete-display-prefix on'
-bind 'set completion-ignore-case on'
-
-function cd {
-    builtin cd "$@" && ls -F
-    }
 
 # get current branch in git repo
 function parse_git_branch() {
