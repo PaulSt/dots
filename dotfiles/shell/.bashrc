@@ -10,6 +10,8 @@ bind '"\e[B": history-search-forward'             # arrow down
 alias ls='ls --color=auto'
 alias l='ls -all --color=auto'
 alias nh='nohup'
+alias sh='sshpass -f <(pass uni/www.univie.ac.at/plain) ssh stocker@logon.mat.univie.ac.at'
+alias ct='cd ~/projects/tdgtp/'
 
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
@@ -21,7 +23,6 @@ function cd {
     builtin cd "$@" && ls -F
     }
 
-alias ct='cd ~/projects/tdgtp/'
 export UNI=~/Dropbox/uni
 export PHD=~/Dropbox/uni/phd
 export PATH=~/bin:$PATH

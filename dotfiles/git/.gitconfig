@@ -1,5 +1,5 @@
 [user]
-	email = ping.paul@hotmail.com
+	email = stocker.paul@hotmail.com
 	name = Paul
 [core]
 	excludesfile = ~/.gitignore_global
