@@ -38,6 +38,10 @@ set mail_check = 120
 
 # Group reply
 bind index,pager \e05r group-reply # Control-r
+
+# notmuch
+macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
+
 ###############################################################
 # vim keybindings
 ###############################################################
