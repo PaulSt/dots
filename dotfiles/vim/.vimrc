@@ -48,6 +48,8 @@ Plug 'justinmk/vim-sneak'
 
 " latex
 Plug 'lervag/vimtex'
+let g:vimtex_compiler_latexmk = {'build_dir' : './buildtex'}
+let g:vimtex_compiler_latexrun = {'build_dir' : './buildtex'}
 
 " snippets
 Plug 'KeyboardFire/vim-minisnip'
@@ -155,9 +157,6 @@ map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
 
 " search for tag file
 set tags=tags;~
-
-" allows for filetype detection
-filetype plugin on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => netrw (filer) settings
@@ -269,3 +268,7 @@ endfun
 
 " auto remove on save for these file types
 autocmd FileType sh,perl,python,cpp  :call <SID>StripTrailingWhitespaces()
+
+" allows for filetype detection
+filetype off
+filetype plugin indent on

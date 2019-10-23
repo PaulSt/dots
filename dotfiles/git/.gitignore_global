@@ -2,6 +2,7 @@ tags
 *.o
 *.ipynb_checkpoints
 *.log
+*.toc
 *.fls
 *.fdb_latexmk
 *.out

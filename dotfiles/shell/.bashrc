@@ -7,10 +7,12 @@ bind '"\e[B": history-search-forward'             # arrow down
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
+alias ls='ls --color=auto -v'
 alias l='ls -all --color=auto'
+alias grep='grep --color=always'
 alias nh='nohup'
-alias sh='sshpass -f <(pass uni/www.univie.ac.at/plain) ssh stocker@logon.mat.univie.ac.at'
+alias sh='sshpass -f <(pass uni/www.univie.ac.at/plain) ssh -Y stocker@logon.mat.univie.ac.at'
+alias f5='f5fpc -s -t vpn.univie.ac.at:8443 -u stockerp31 -d /etc/ssl/certs/'
 alias ct='cd ~/projects/tdgtp/'
 
 bind TAB:menu-complete
@@ -41,6 +43,9 @@ export PYTHONPATH=~/.local/lib:$PYTHONPATH:$PATH
 
 export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
+
+export PATH=~/mathematica:$PATH
+export PATH=~/.gem/ruby/2.6.0/bin:$PATH
 
 # get current branch in git repo
 function parse_git_branch() {
