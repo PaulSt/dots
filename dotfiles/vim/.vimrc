@@ -64,6 +64,9 @@ Plug 'ap/vim-buftabline'
 nnoremap <C-h> :bprev<CR>
 nnoremap <C-l> :bnext<CR>
 
+" Zen Mode
+Plug 'junegunn/goyo.vim'
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

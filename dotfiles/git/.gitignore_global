@@ -9,6 +9,7 @@ tags
 *.gz
 *.aux
 octave-workspace
-__pycache__/*
+__pycache__
 *.lock
 *.zip
+buildtex
