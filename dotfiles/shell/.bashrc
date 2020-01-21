@@ -47,6 +47,17 @@ export OPENBLAS_NUM_THREADS=1
 export PATH=~/mathematica:$PATH
 export PATH=~/.gem/ruby/2.6.0/bin:$PATH
 
+# ----------------------
+# Git Helpers
+# ----------------------
+alias ga='git add -p'
+alias gc='git commit'
+alias gd='git diff'
+alias gp='git pull'
+alias gs='git status'
+# Git log find by commit message
+function glf() { git log --all --grep="$1"; }
+
 # get current branch in git repo
 function parse_git_branch() {
 	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
