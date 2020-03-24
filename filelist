@@ -40,6 +40,10 @@ bin/xrandr-vga:bin
 bin/git-status:bin
 bin/git-credential-read-only:bin
 
+#spotify
+.config/spotifyd/spotifyd.config
+.config/spotify-tui/client.yml
+
 #games
 .dwarffortress/data/art/kruggs.png
 .dwarffortress/data/init/init.txt
