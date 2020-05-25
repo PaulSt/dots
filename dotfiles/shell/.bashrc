@@ -31,7 +31,7 @@ export PATH=~/bin:$PATH
 
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
-export PYTHONPATH=$NETGENDIR/../lib/python3.7/site-packages:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.8/site-packages:$PATH
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
