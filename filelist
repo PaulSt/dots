@@ -1,38 +1,38 @@
 # group
-common=common,vim,x,cal,pdf,ctags,git,shell,mutt,newsboat,bin,games
+common=basics,adv,bin,personal,misc
 
 # shell
-.zshrc:shell
-.bashrc:shell
+.zshrc:adv
+.bashrc:basics
 
 # vim
-.vimrc:vim
+.vimrc:basics
 
 # xinit
-.xinitrc:x
-.fehbg:x
-.wallpaper.png:x
-
-# calcurse
-.calcurse/caldav/config_todo:cal
-.calcurse/caldav/config_cal:cal
+.xinitrc:adv
+.fehbg:adv
+.wallpaper.png:adv
 
 # zathura
-.config/zathura/zathurarc:pdf
+.config/zathura/zathurarc:adv
 
 # ctags
-.ctags:ctags
+.ctags:adv
 
 # git
-.gitconfig:git
-.gitignore_global:git
-
-# mutt
-.muttrc:mutt
+.gitconfig:adv
+.gitignore_global:adv
 
 # newsboat
-.newsboat/config:newsboat
-.newsboat/urls:newsboat
+.newsboat/config:adv
+.newsboat/urls:adv
+
+# calcurse
+.calcurse/caldav/config_todo:personal
+.calcurse/caldav/config_cal:personal
+
+# mutt
+.muttrc:personal
 
 # bin
 bin/calcurse-sync:bin
@@ -41,11 +41,11 @@ bin/git-status:bin
 bin/git-credential-read-only:bin
 
 #spotify
-.config/spotifyd/spotifyd.config
-.config/spotify-tui/client.yml
+.config/spotifyd/spotifyd.config:misc
+.config/spotify-tui/client.yml:misc
 
 #games
-.dwarffortress/data/art/kruggs.png
-.dwarffortress/data/init/init.txt
-.dwarffortress/data/init/colors.txt
+.dwarffortress/data/art/kruggs.png:misc
+.dwarffortress/data/init/init.txt:misc
+.dwarffortress/data/init/colors.txt:misc
 
