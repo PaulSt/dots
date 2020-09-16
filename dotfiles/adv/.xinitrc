@@ -5,13 +5,17 @@
 exec xscreensaver -nosplash &
 
 while true; do
-    WLAN=$( wicd-cli --wireless -i | sed -n -e 's/^.*Connected to \([A-Za-z0-9]\{0,20\}\).*$/\1/p')
+    WLAN=$( iw dev wlan0 link | sed -n -e 's/^.*SSID: //p')
+    if [ -z "$WLAN"]
+    then
+        WLAN="Not Connected"
+    fi
     TEMP=$(echo $(cat /sys/class/thermal/thermal_zone0/temp) | cut -b -2)°C
     BATT=$( acpi -b | sed 's/.*[Full|charging|unknown], \([0-9]*\)%.*/\1/gi' )
     STATUS=$( acpi -b | sed 's/.*: \([a-zA-Z]*\),.*/\1/gi' )
-    VOL=$(awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master))
     DB=$( dropbox-cli status )
-    if [ $(amixer sget Master | grep -c "\[off\]") -eq 1 ]
+    VOL=$(awk -F"[][]" '/%/ { print $2 }' <(amixer sget Master))
+    if [ $(amixer sget Master | grep -c "\[off\]") -ge 1 ]
     then
         VOL="Mute"
     fi
