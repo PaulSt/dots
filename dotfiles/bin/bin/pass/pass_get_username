@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pass show $1 | grep username: | awk '{print $2}'
