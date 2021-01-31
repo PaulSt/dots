@@ -2,11 +2,12 @@
 # ~/.bashrc
 #
 
-bind '"\e[A": history-search-backward'            # arrow up
-bind '"\e[B": history-search-forward'             # arrow down
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# ----------------------
+# aliases
+# ----------------------
 alias ls='ls --color=auto -v'
 alias l='ls -all --color=auto'
 alias grep='grep --color=always'
@@ -26,9 +27,14 @@ function cd {
     builtin cd "$@" && ls -F
     }
 
+# ----------------------
+# exports
+# ----------------------
 export UNI=~/Dropbox/uni
 export PHD=~/Dropbox/uni/phd
+
 export PATH=~/bin:$PATH
+export PATH=~/bin/platform-tools:$PATH
 
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
@@ -47,6 +53,23 @@ export OPENBLAS_NUM_THREADS=1
 
 export PATH=~/mathematica:$PATH
 export PATH=~/.gem/ruby/2.6.0/bin:$PATH
+
+# ----------------------
+# bash history.
+# ----------------------
+export HISTFILESIZE=1000000 #-1 for unlimited
+export HISTSIZE=2000000 #-1 for unlimited
+#export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+bind '"\e[A": history-search-backward'            # arrow up
+bind '"\e[B": history-search-forward'             # arrow down
+
 
 # ----------------------
 # Git Helpers

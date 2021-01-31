@@ -30,4 +30,6 @@ exec setxkbmap -layout de &
 
 ~/.fehbg &
 
+exec  redshift -l 48:16 &
+
 exec dwm
