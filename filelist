@@ -39,6 +39,10 @@ bin/calcurse-sync:bin
 bin/xrandr-vga:bin
 bin/git-status:bin
 bin/git-credential-read-only:bin
+bin/weather:bin
+bin/pass/dmenu_pass:bin
+bin/pass/fuzzy_pass.sh:bin
+bin/pass/pass_get_username:bin
 
 #spotify
 .config/spotifyd/spotifyd.config:misc
