@@ -15,7 +15,6 @@ alias nh='nohup'
 alias sh='sshpass -f <(pass uni/univie.ac.at/plain) ssh stocker@logon.mat.univie.ac.at'
 alias shy='sshpass -f <(pass uni/univie.ac.at/plain) ssh -Y stocker@logon.mat.univie.ac.at'
 alias f5='f5fpc -s -t vpn.univie.ac.at:8443 -u stockerp31 -d /etc/ssl/certs/'
-alias ct='cd ~/projects/tdgtp/'
 
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
@@ -25,6 +24,14 @@ bind 'set completion-ignore-case on'
 
 function cd {
     builtin cd "$@" && ls -F
+    }
+
+function za {
+    nohup zathura "$1" >/dev/null 2>&1 &
+    }
+
+function sscp {
+    scp stocker@logon.mat.univie.ac.at:"$1" .
     }
 
 # ----------------------
@@ -38,7 +45,7 @@ export PATH=~/bin/platform-tools:$PATH
 
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
-export PYTHONPATH=$NETGENDIR/../lib/python3.8/site-packages:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.9/site-packages:$PATH
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -47,6 +54,8 @@ export GTAGSLABEL=pygments
 export PATH=~/.local/bin:$PATH
 export PATH=~/.local/lib:$PATH
 export PYTHONPATH=~/.local/lib:$PYTHONPATH:$PATH
+export PATH=~/.local/lib/python3.9/site-packages:$PATH
+
 
 export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1

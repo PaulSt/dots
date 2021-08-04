@@ -184,6 +184,8 @@ noremap H ^
 " ctrl+d, ctrl+u is unintuitive
 noremap J <C-d>
 noremap K <C-u>
+noremap <Down> <C-d>
+noremap <Up> <C-u>
 " save J
 noremap <c-j> J
 
