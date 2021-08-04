@@ -16,6 +16,9 @@ common=basics,adv,bin,personal,misc
 # zathura
 .config/zathura/zathurarc:adv
 
+# redshift
+.config/redshift/redshift.conf:adv
+
 # ctags
 .ctags:adv
 
