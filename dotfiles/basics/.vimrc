@@ -100,6 +100,11 @@ set ffs=unix,dos,mac
 " Hide mouse when typing
 set mousehide
 
+" use mouse to scroll
+set mouse=a
+map <ScrollWheelUp> <C-Y>
+map <ScrollWheelDown> <C-E>
+
 " highlight entire line of curser
 set cursorline
 " Default Colors for CursorLine

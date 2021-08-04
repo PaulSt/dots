@@ -2,6 +2,10 @@
 # ~/.bashrc
 #
 
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+    startx
+fi
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -38,7 +42,7 @@ export PATH=~/bin/platform-tools:$PATH
 
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
-export PYTHONPATH=$NETGENDIR/../lib/python3.8/site-packages:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.9/site-packages:$PATH
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
