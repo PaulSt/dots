@@ -41,7 +41,8 @@ common=basics,adv,bin,personal,misc
 bin/calcurse-sync:bin
 bin/xrandr-vga:bin
 bin/git-status:bin
-bin/git-credential-read-only:bin
+bin/git-credential-github:bin
+bin/git-credential-gwdg:bin
 bin/weather:bin
 bin/pass/dmenu_pass:bin
 bin/pass/fuzzy_pass.sh:bin
