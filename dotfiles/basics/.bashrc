@@ -64,8 +64,7 @@ export PATH=~/.local/lib/python3.9/site-packages:$PATH
 export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
-export PATH=~/mathematica:$PATH
-export PATH=~/.gem/ruby/2.6.0/bin:$PATH
+export PATH=~/.local/share/gem/ruby/3.0.0/bin:$PATH
 
 # ----------------------
 # bash history.

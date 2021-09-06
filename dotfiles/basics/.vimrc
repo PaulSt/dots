@@ -115,8 +115,9 @@ autocmd InsertEnter * highlight CursorLine cterm=underline ctermfg=none ctermbg=
 autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
 
 " linenumbers
-set number relativenumber
-nmap <C-N><C-N> :set invrelativenumber<CR>
+set nu
+"set number relativenumber
+"nmap <C-N><C-N> :set invrelativenumber<CR>
 
 " copy to clipboard
  set clipboard=unnamedplus

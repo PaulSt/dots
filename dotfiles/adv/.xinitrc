@@ -9,7 +9,9 @@ while true; do
     if [ -z "$WLAN" ]; then
         WLAN="Not Connected"
     fi
-    TEMP=$(echo $(cat /sys/class/thermal/thermal_zone0/temp) | cut -b -2)°C
+
+    # run cat /sys/class/thermal/thermal_zone*/type to check the thermometers available
+    TEMP=$(echo $(cat /sys/class/thermal/thermal_zone8/temp) | cut -b -2)°C
     BATT=$( acpi -b | sed 's/.*[Full|charging|unknown], \([0-9]*\)%.*/\1/gi' )
     STATUS=$( acpi -b | sed 's/.*: \([a-zA-Z]*\),.*/\1/gi' )
     #DB=$( dropbox-cli status ) use this icon  $DB \
