@@ -26,6 +26,10 @@ common=basics,adv,bin,personal,misc
 .gitconfig:adv
 .gitignore_global:adv
 
+# docker
+.docker/config.json:adv
+bin/docker-credential-dockerhub:adv
+
 # newsboat
 .newsboat/config:adv
 .newsboat/urls:adv

@@ -19,6 +19,7 @@ alias nh='nohup'
 alias sh='sshpass -f <(pass uni/univie.ac.at/plain) ssh stocker@logon.mat.univie.ac.at'
 alias shy='sshpass -f <(pass uni/univie.ac.at/plain) ssh -Y stocker@logon.mat.univie.ac.at'
 alias f5='f5fpc -s -t vpn.univie.ac.at:8443 -u stockerp31 -d /etc/ssl/certs/'
+alias untar='tar -zxvf'
 
 bind TAB:menu-complete
 bind 'set show-all-if-ambiguous on'
