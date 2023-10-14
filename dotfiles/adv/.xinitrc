@@ -2,6 +2,30 @@
 #
 # ~/.xinitrc
 
+# Get all possible displays
+allposs=$(xrandr -q | grep "connected")
+# Get all connected screens.
+screens=$(echo "$allposs" | awk '/ connected/ {print $1}')
+
+if [[ $screens == *"HDMI1"* ]]; then
+    xrandr --output eDP1 --off
+    xrandr --output HDMI1 --auto --scale 1.0x1.0
+fi
+
+if [[ $screens == *"DP1-1"* ]] & [[ $screens == *"DP1-3"* ]]; then
+    xrandr --output eDP1 --off
+    xrandr --output DP1-1 --auto --scale 1.0x1.0
+    #xrandr --output DP1-2 --off
+    xrandr --output DP1-3 --right-of DP1-1 --auto --scale 1.0x1.0
+    #xrandr --output eDP1 --right-of DP1-1 --auto --scale 1.0x1.0
+    xsetwacom set "Wacom One Pen Display 13 Pen stylus" MapToOutput DP1-3
+    #xsetwacom list devices
+    #xrandr --output DP1-3 --off
+    #xrandr --output DP1-2 --right-of DP1-1 --auto --scale 1.0x1.0 --rotate left
+    #xrandr --output DP1-2 --off
+    #xrandr --output DP1-1 --auto --scale 1.0x1.0
+fi
+
 exec xscreensaver -nosplash &
 
 while true; do
@@ -31,6 +55,7 @@ done &
 exec setxkbmap -layout de &
 
 ~/.fehbg &
+source ~/.bashrc
 
 # for gnome keyring update pam  https://wiki.archlinux.org/title/GNOME/Keyring#Automatically_change_keyring_password_with_user_password
 eval $(gnome-keyring-daemon --start)

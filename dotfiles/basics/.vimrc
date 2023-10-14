@@ -6,6 +6,12 @@ let maplocalleader = "+"
 set nocompatible
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => File encoding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set encoding=utf-8
+set fileencoding=utf-8
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Install vim-plug
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -29,43 +35,73 @@ Plug 'morhetz/gruvbox'
 
 " tags
 "Plug 'craigemery/vim-autotag'
-Plug 'ludovicchabant/vim-gutentags'
+"Plug 'ludovicchabant/vim-gutentags'
 
 " startscreen
 Plug 'mhinz/vim-startify'
 
 " autocompletion
-Plug 'ajh17/VimCompletesMe'
+"Plug 'ajh17/VimCompletesMe'
 
 " comments with <leader> cc
 Plug 'scrooloose/nerdcommenter'
 
-" ctrlp fuzzy file, buffer,.. finder
-Plug 'ctrlpvim/ctrlp.vim'
+" fuzzy finder
+"Plug 'ctrlpvim/ctrlp.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+"nnoremap <leader>ff <cmd>Telescope find_files<cr>
+"nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+"nnoremap <leader>fb <cmd>Telescope buffers<cr>
 
 " missing notion of vim
 Plug 'justinmk/vim-sneak'
 
 " latex
 Plug 'lervag/vimtex'
-let g:vimtex_compiler_latexmk = {'build_dir' : './buildtex'}
+let g:vimtex_compiler_latexmk = {'build_dir' : './buildtex',
+       \ 'options' : [
+       \   '-pdf',
+       \   '-file-line-error',
+       \   '-synctex=1',
+       \   '-interaction=nonstopmode',
+       \   '--shell-escape',
+       \ ],
+       \ }
 let g:vimtex_compiler_latexrun = {'build_dir' : './buildtex'}
 
 " snippets
-Plug 'KeyboardFire/vim-minisnip'
-let g:minisnip_trigger = '<C-k>'
+"Plug 'KeyboardFire/vim-minisnip'
+"let g:minisnip_trigger = '<C-k>'
 
 " org-mode
-Plug 'jceb/Vim-OrgMode'
-Plug 'tpope/vim-speeddating'
-
-" buffers in tabline
-Plug 'ap/vim-buftabline'
-nnoremap <C-h> :bprev<CR>
-nnoremap <C-l> :bnext<CR>
+"Plug 'jceb/Vim-OrgMode'
+"Plug 'tpope/vim-speeddating'
 
 " Zen Mode
 Plug 'junegunn/goyo.vim'
+"nnoremap  <leader>gg :Goyo<CR>
+nnoremap  <C-g><C-g> :Goyo<CR>
+
+" Marks
+Plug 'kshenoy/vim-signature'
+
+" Github copilot
+Plug 'github/copilot.vim'
+
+" Undo tree
+Plug 'mbbill/undotree'
+nnoremap U :UndotreeToggle<CR>
+
+" bot line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+let g:airline_powerline_fonts = 1
+" buffers in tabline by airline
+let g:airline#extensions#tabline#enabled = 1
+nnoremap <C-h> :bprev<CR>
+nnoremap <C-l> :bnext<CR>
 
 call plug#end()
 
@@ -105,19 +141,20 @@ set mouse=a
 map <ScrollWheelUp> <C-Y>
 map <ScrollWheelDown> <C-E>
 
-" highlight entire line of curser
-set cursorline
-" Default Colors for CursorLine
-highlight  CursorLine cterm=underline ctermfg=none ctermbg=none
-" Change Color when entering Insert Mode
-autocmd InsertEnter * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
-" Revert Color to default when leaving Insert Mode
-autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
+"" highlight entire line of curser
+"set cursorline
+"" Default Colors for CursorLine
+"highlight  CursorLine cterm=underline ctermfg=none ctermbg=none
+"" Change Color when entering Insert Mode
+"autocmd InsertEnter * highlight CursorLine cterm=none ctermfg=none ctermbg=none
+"" Revert Color to default when leaving Insert Mode
+"autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
 
 " linenumbers
 set nu
-"set number relativenumber
-"nmap <C-N><C-N> :set invrelativenumber<CR>
+set number relativenumber
+nmap <C-N><C-N> :set invrelativenumber<CR>
+set rnu nu
 
 " copy to clipboard
  set clipboard=unnamedplus
@@ -168,6 +205,21 @@ map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
 set tags=tags;~
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => persistent undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" guard for distributions lacking the 'persistent_undo' feature.
+if has('persistent_undo')
+    " define a path to store persistent undo files.
+    let target_path = expand('~/.config/vim-persisted-undo/')    " create the directory and any parent directories
+    " if the location does not exist.
+    if !isdirectory(target_path)
+        call system('mkdir -p ' . target_path)
+    endif    " point Vim to the defined undo directory.
+    let &undodir = target_path    " finally, enable undo persistence.
+    set undofile
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => netrw (filer) settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:netrw_banner = 0
@@ -194,6 +246,9 @@ noremap <Down> <C-d>
 noremap <Up> <C-u>
 " save J
 noremap <c-j> J
+
+" Go to mark using capital mark
+noremap M '
 
 " press j and k at the same time to get escape
 inoremap jk <esc>
@@ -233,52 +288,52 @@ set wrap
 let g:tex_indent_brace = 0
 
 " Don't indent namespace and template
-function! CppNoNamespaceAndTemplateIndent()
-    let l:cline_num = line('.')
-    let l:cline = getline(l:cline_num)
-    let l:pline_num = prevnonblank(l:cline_num - 1)
-    let l:pline = getline(l:pline_num)
-    while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
-        let l:pline_num = prevnonblank(l:pline_num - 1)
-        let l:pline = getline(l:pline_num)
-    endwhile
-    let l:retv = cindent('.')
-    let l:pindent = indent(l:pline_num)
-    if l:pline =~# '^\s*template<.*$'
-        let l:retv = l:pindent
-    elseif l:pline =~# '^.*::\s*$'
-        let l:retv = l:pindent
-    elseif l:pline =~# '^\s*HD NGS_DLL_HEADER$'
-        let l:retv = l:pindent
-        "elseif l:pline =~# '\s*typename\s*.*,\s*$'
-        "    let l:retv = l:pindent
-        "elseif l:cline =~# '^\s*>\s*$'
-        "    let l:retv = l:pindent - &shiftwidth
-        "elseif l:pline =~# '\s*typename\s*.*>\s*$'
-        "    let l:retv = l:pindent - &shiftwidth
-        "elseif l:pline =~# '^\s*namespace.*'
-        "    let l:retv = 0
-    endif
-    return l:retv
-endfunction
+set equalprg=clang-format
+            "\ -style='GNU'
+"function! CppNoNamespaceAndTemplateIndent()
+    "let l:cline_num = line('.')
+    "let l:cline = getline(l:cline_num)
+    "let l:pline_num = prevnonblank(l:cline_num - 1)
+    "let l:pline = getline(l:pline_num)
+    "while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
+        "let l:pline_num = prevnonblank(l:pline_num - 1)
+        "let l:pline = getline(l:pline_num)
+    "endwhile
+    "let l:retv = cindent('.')
+    "let l:pindent = indent(l:pline_num)
+    "if l:pline =~# '^\s*template.*'
+        "let l:retv = l:pindent
+    "elseif l:pline =~# '\s*typename\s*.*,\s*$'
+        "let l:retv = l:pindent
+    "elseif l:cline =~# '^\s*>\s*$'
+        "let l:retv = l:pindent - &shiftwidth
+    "elseif l:pline =~# '\s*typename\s*.*>\s*$'
+        "let l:retv = l:pindent - &shiftwidth
+    ""elseif l:pline =~# '^\s*namespace.*'
+        ""let l:retv = 0
+    ""elseif l:pline =~# '^\s*HD NGS_DLL_HEADER$'
+        ""let l:retv = l:pindent
+    "endif
+    "return l:retv
+"endfunction
+"if has("autocmd")
+    "autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
+"endif
 
-if has("autocmd")
-    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
-endif
 
-" handle lambdafct indent correctly
-autocmd BufEnter *.cpp :setlocal cindent cino=j1,(0,ws,Ws
+"" handle lambdafct indent correctly
+"autocmd BufEnter *.cpp :setlocal cindent cino=j1,(0,ws,Ws
 
-" fct to remove trailing whitespaces
-function! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
+"" fct to remove trailing whitespaces
+"function! <SID>StripTrailingWhitespaces()
+    "let l = line(".")
+    "let c = col(".")
+    "%s/\s\+$//e
+    "call cursor(l, c)
+"endfun
 
-" auto remove on save for these file types
-autocmd FileType sh,perl,python,cpp  :call <SID>StripTrailingWhitespaces()
+"" auto remove on save for these file types
+"autocmd FileType sh,perl,python,cpp  :call <SID>StripTrailingWhitespaces()
 
 " allows for filetype detection
 filetype off

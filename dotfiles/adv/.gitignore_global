@@ -13,3 +13,5 @@ __pycache__
 *.lock
 *.zip
 buildtex
+*eps-converted-to.pdf
+_build
