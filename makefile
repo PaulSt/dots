@@ -9,3 +9,5 @@ basics:
 	stow --verbose --target=$$HOME --restow bins
 delete:
 	stow --verbose --target=$$HOME --delete */
+base:
+	stow --verbose --target=$$HOME --restow vim bash x
