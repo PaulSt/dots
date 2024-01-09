@@ -10,7 +10,7 @@ fi
 [[ $- != *i* ]] && return
 
 # jump
-eval "$(jump shell bash)"
+# eval "$(jump shell bash)"
 # fzf
 source /usr/share/fzf/key-bindings.bash
 source /usr/share/fzf/completion.bash
@@ -46,6 +46,11 @@ function za {
     nohup zathura "$1" >/dev/null 2>&1 &
     }
 
+function sth {
+    nohup st -e "$SHELL" -c "cd $PWD; exec $SHELL" >/dev/null 2>&1 &
+    #st -t "$title" -e "$SHELL" -c "cd $PWD; exec $SHELL"
+    }
+
 # ----------------------
 # exports
 # ----------------------
@@ -56,9 +61,9 @@ export PATH=~/src/paraview_build/bin:$PATH
 
 export READER=zathura
 
-#export NETGENDIR=~/ngsuite/ngsolve-install/bin
-#export PATH=$NETGENDIR:$PATH
-#export PYTHONPATH=$NETGENDIR/../lib/python3.11/site-packages:$PATH
+export NETGENDIR=~/Documents/ngsuite/ngsolve-install/bin
+export PATH=$NETGENDIR:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.11/site-packages:$PATH
 
 export PETSC_DIR=/opt/petsc/linux-c-opt
 export SLEPC_DIR=/opt/slepc/linux-c-opt

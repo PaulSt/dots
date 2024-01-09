@@ -60,7 +60,8 @@ Plug 'justinmk/vim-sneak'
 
 " latex
 Plug 'lervag/vimtex'
-let g:vimtex_compiler_latexmk = {'build_dir' : './buildtex',
+let g:vimtex_compiler_method = 'latexmk'
+let g:vimtex_compiler_latexmk = {'out_dir' : './buildtex',
        \ 'options' : [
        \   '-pdf',
        \   '-file-line-error',
@@ -69,7 +70,7 @@ let g:vimtex_compiler_latexmk = {'build_dir' : './buildtex',
        \   '--shell-escape',
        \ ],
        \ }
-let g:vimtex_compiler_latexrun = {'build_dir' : './buildtex'}
+let g:vimtex_compiler_latexrun = {'out_dir' : './buildtex'}
 
 " snippets
 "Plug 'KeyboardFire/vim-minisnip'
