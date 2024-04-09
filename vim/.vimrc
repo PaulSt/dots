@@ -71,6 +71,7 @@ let g:vimtex_compiler_latexmk = {'out_dir' : './buildtex',
        \ ],
        \ }
 let g:vimtex_compiler_latexrun = {'out_dir' : './buildtex'}
+let g:vimtex_view_method = 'zathura'
 
 " snippets
 "Plug 'KeyboardFire/vim-minisnip'
