@@ -25,3 +25,5 @@
   conflictstyle = diff3
 [difftool]
   prompt = false
+[pull]
+  rebase = false
