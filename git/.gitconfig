@@ -27,3 +27,8 @@
   prompt = false
 [pull]
   rebase = false
+
+[rebase]
+    instructionFormat = %s%nexec GIT_COMMITTER_DATE=\"%aD\" GIT_COMMITTER_NAME=\"%cN\" GIT_COMMITTER_EMAIL=\"%cE\" git commit --amend --no-edit%n
+[alias]
+    rb = rebase --interactive --committer-date-is-author-date
