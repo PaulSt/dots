@@ -8,6 +8,7 @@ all:
 	stow --verbose --target=$$HOME --restow suckless
 	stow --verbose --target=$$HOME --restow wm
 	stow --verbose --target=$$HOME --restow mutt
+	stow --verbose --target=$$HOME --restow jgmenu
 delete:
 	stow --verbose --target=$$HOME --delete */
 base:

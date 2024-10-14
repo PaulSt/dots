@@ -63,7 +63,6 @@ export READER=zathura
 
 export BASEDIR=~/ngsuite
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
-#export NETGENDIR=~/Documents/ngsuite/ngsolve-2401/bin
 export PATH=$NETGENDIR:$PATH
 export PYTHONPATH=$NETGENDIR/../lib/python3.12/site-packages:$PATH
 
