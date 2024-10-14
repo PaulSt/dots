@@ -7,6 +7,7 @@ all:
 	stow --verbose --target=$$HOME --restow bins
 	stow --verbose --target=$$HOME --restow suckless
 	stow --verbose --target=$$HOME --restow wm
+	stow --verbose --target=$$HOME --restow mutt
 delete:
 	stow --verbose --target=$$HOME --delete */
 base:

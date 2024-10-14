@@ -49,7 +49,7 @@ Plug 'scrooloose/nerdcommenter'
 " fuzzy finder
 "Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
 nnoremap <C-p> <cmd>Telescope find_files<cr>
 "nnoremap <leader>ff <cmd>Telescope find_files<cr>
 "nnoremap <leader>fg <cmd>Telescope live_grep<cr>
