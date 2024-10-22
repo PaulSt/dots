@@ -65,6 +65,7 @@ export PATH=~/src/paraview_build/bin:$PATH
 
 export READER=zathura
 
+export BASEDIR=~/ngsuite
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
 export PYTHONPATH=$NETGENDIR/../lib/python3.12/site-packages:$PATH
