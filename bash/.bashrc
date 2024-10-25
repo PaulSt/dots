@@ -14,8 +14,6 @@ fi
 # fzf
 source /usr/share/fzf/key-bindings.bash
 source /usr/share/fzf/completion.bash
-# vtop
-alias top='vtop'
 # trash
 #alias rm=trash
 
@@ -44,6 +42,12 @@ function cd {
 
 function za {
     nohup zathura "$1" >/dev/null 2>&1 &
+    }
+
+function rmaudio {
+    cp "$1" "$1.bak"
+    ffmpeg -i "$1.bak" -c copy -an "$1"
+    rm "$1.bak"
     }
 
 function sth {
@@ -121,8 +125,8 @@ export SSH_AUTH_SOCK
 # ----------------------
 # bash history.
 # ----------------------
-export HISTFILESIZE=1000000 #-1 for unlimited
-export HISTSIZE=2000000 #-1 for unlimited
+export HISTFILESIZE=10000000 #-1 for unlimited
+export HISTSIZE=-1 #-1 for unlimited
 #export HISTTIMEFORMAT="[%F %T] "
 export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoreboth:erasedups
