@@ -28,3 +28,24 @@ polkit.addRule(function(action, subject) {
             return polkit.Result.YES;
     }
 });
+
+## using iwd + systemd-resolved
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+Edit or create: /etc/iwd/main.conf
+
+    [General]
+    EnableNetworkConfiguration=true
+
+    [Network]
+    NameResolvingService=systemd
+
+
+    
+Create: /etc/systemd/resolved.conf.d/dns_servers.conf with your desired DNS servers. These are for Cloudflare's. 8.8.8.8 would be Google's.
+
+[Resolve]
+DNS=1.1.1.1 1.0.0.1
+Domains=~.
+
+systemctl enable iwd.service systemd-resolved.service

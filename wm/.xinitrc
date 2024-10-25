@@ -36,7 +36,10 @@ while true; do
     sleep 15
 done &
 
-exec setxkbmap -layout us &
+setxkbmap -layout us &
+
+# for zoom screen share
+xcompmgr -c -l0 -t0 -r0 -o.00 &
 
 ~/.fehbg &
 source ~/.bashrc

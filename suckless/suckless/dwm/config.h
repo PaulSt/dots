@@ -70,8 +70,8 @@ static const char *lockcmd[]  = { "slock", NULL };
 static const char *volup[]  = { "amixer", "-c", "0", "set", "Master", "5%+", NULL };
 static const char *voldo[]  = { "amixer", "-c", "0", "set", "Master", "5%-", NULL };
 static const char *volmu[]  = { "amixer", "-c", "0", "set", "Master", "1+" , "toggle",  NULL };
-static const char *brightinc[]  = { "xbacklight", "-inc", "5", NULL };
-static const char *brightdec[]  = { "xbacklight", "-dec", "5", NULL };
+static const char *brightinc[]  = { "brightnessctl", "set", "+10%", NULL };
+static const char *brightdec[]  = { "brightnessctl", "set", "10%-", NULL };
 /* runorraise commands, name on entry 6 */
 static const char *browsercmd[] = { "surf", NULL,NULL,NULL,NULL,NULL,NULL,"surf" };
 static const char *mailcmd[]  = { "st", "-c" , "mutt", "-e", "mutt", NULL,NULL, "mutt" };
