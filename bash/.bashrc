@@ -55,6 +55,10 @@ function sth {
     #st -t "$title" -e "$SHELL" -c "cd $PWD; exec $SHELL"
     }
 
+function pdfr {
+    pdfrenamer -f "{Aall} - {T} ({YYYY})" "$1"
+}
+
 # ----------------------
 # exports
 # ----------------------
@@ -68,7 +72,7 @@ export READER=zathura
 export BASEDIR=~/ngsuite
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
-export PYTHONPATH=$NETGENDIR/../lib/python3.12/site-packages:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.13/site-packages:$PATH
 
 export PETSC_DIR=/opt/petsc/linux-c-opt
 export SLEPC_DIR=/opt/slepc/linux-c-opt
