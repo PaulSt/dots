@@ -50,6 +50,26 @@ function rmaudio {
     rm "$1.bak"
     }
 
+compress_mp4_noaudio() {
+    if [[ $# -lt 1 ]]; then
+        echo "Usage: compress_mp4_noaudio input_file [crf]"
+        return 1
+    fi
+
+    local input="$1"
+    local crf="${2:-28}"  # default CRF is 28 if not specified
+    local filename="${input%.*}"
+    local output="${filename}_compressed.mp4"
+
+    echo "Original file size:"
+    du -h "$input"
+
+    ffmpeg -i "$input" -vcodec libx264 -crf "$crf" -preset slow -an -movflags +faststart "$output"
+
+    echo "Compressed file size:"
+    du -h "$output"
+}
+
 function sth {
     nohup st -e "$SHELL" -c "cd $PWD; exec $SHELL" >/dev/null 2>&1 &
     #st -t "$title" -e "$SHELL" -c "cd $PWD; exec $SHELL"
