@@ -17,13 +17,17 @@ source /usr/share/fzf/completion.bash
 # trash
 #alias rm=trash
 
+source /etc/profile.d/petsc.sh # for petsc environment variables
+source /etc/profile.d/slepc.sh # for petsc environment variables
+#export PETSC_DIR=/usr
+#export SLEPC_DIR=/usr/local/slepc/usr
+
 # ----------------------
 # aliases
 # ----------------------
 alias ls='ls --color=auto -v'
 alias l='ls -all --color=auto'
 alias grep='grep --color=always --exclude=tags'
-alias nh='nohup'
 alias untar='tar -zxvf'
 alias v="nvim"
 alias vim="nvim"
@@ -59,6 +63,36 @@ function pdfr {
     pdfrenamer -f "{Aall} - {T} ({YYYY})" "$1"
 }
 
+
+nh() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: nh [--log <file>] <command> [args...]"
+        return 1
+    fi
+
+    local logfile=""
+    if [ "$1" = "--log" ]; then
+        shift
+        logfile="$1"
+        shift
+    fi
+
+    if [ $# -eq 0 ]; then
+        echo "Usage: nh [--log <file>] <command> [args...]"
+        return 1
+    fi
+
+    if [ -n "$logfile" ]; then
+        nohup "$@" >"$logfile" 2>&1 &
+        echo "Started: $*"
+        echo "Logging to: $logfile"
+    else
+        nohup "$@" >/dev/null 2>&1 &
+        echo "Started (no log): $*"
+    fi
+    echo "PID: $!"
+}
+
 # ----------------------
 # exports
 # ----------------------
@@ -72,14 +106,14 @@ export READER=zathura
 export BASEDIR=~/ngsuite
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
-export PYTHONPATH=$NETGENDIR/../lib/python3.13/site-packages:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.14/site-packages:$PATH
 
-export PETSC_DIR=/opt/petsc/linux-c-opt
-export SLEPC_DIR=/opt/slepc/linux-c-opt
-export PYTHONPATH=$PYTHONPATH:/opt/petsc/linux-c-opt/lib
+#export PETSC_DIR=/opt/petsc/linux-c-opt
+#export SLEPC_DIR=/opt/slepc/linux-c-opt
+#export PYTHONPATH=$PYTHONPATH:/opt/petsc/linux-c-opt/lib
 
-#export CC=/usr/bin/clang
-#export CXX=/usr/bin/clang++
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
 
 export VISUAL=vim
 export EDITOR="$VISUAL"

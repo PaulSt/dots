@@ -32,3 +32,8 @@
     instructionFormat = %s%nexec GIT_COMMITTER_DATE=\"%aD\" GIT_COMMITTER_NAME=\"%cN\" GIT_COMMITTER_EMAIL=\"%cE\" git commit --amend --no-edit%n
 [alias]
     rb = rebase --interactive --committer-date-is-author-date
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

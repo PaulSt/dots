@@ -99,6 +99,9 @@ Plug 'github/copilot.vim'
 Plug 'mbbill/undotree'
 nnoremap U :UndotreeToggle<CR>
 
+" teamtype
+Plug 'teamtype/teamtype-nvim'
+
 " bot line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
