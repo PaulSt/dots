@@ -92,7 +92,7 @@ export READER=zathura
 export BASEDIR=~/ngsuite
 export NETGENDIR=~/ngsuite/ngsolve-install/bin
 export PATH=$NETGENDIR:$PATH
-export PYTHONPATH=$NETGENDIR/../lib/python3.13/site-packages:$PATH
+export PYTHONPATH=$NETGENDIR/../lib/python3.14/site-packages:$PATH
 
 export PETSC_DIR=/opt/petsc/linux-c-opt
 export SLEPC_DIR=/opt/slepc/linux-c-opt

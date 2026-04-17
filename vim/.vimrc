@@ -1,7 +1,7 @@
 " set leader (has to be before any leader command is defined)
 nnoremap <space> <Nop>
 let mapleader = " "
-let maplocalleader = "+"
+let maplocalleader = " "
 " Necesary for lots of cool vim things
 set nocompatible
 
@@ -63,18 +63,26 @@ Plug 'lervag/vimtex'
 filetype plugin indent on
 syntax enable
 let g:vimtex_view_method = 'zathura'
+function! s:tex_build_dir(file_info) abort
+  let l:name = get(a:file_info, 'jobname', '')
+  if empty(l:name)
+    let l:name = fnamemodify(get(a:file_info, 'target_basename', 'main.tex'), ':r')
+  endif
+  return 'buildtex/' . l:name
+endfunction
 let g:vimtex_compiler_method = 'latexmk'
-let g:vimtex_compiler_latexmk = {'out_dir' : './buildtex',
-       \ 'options' : [
-       \   '-pdf',
-       \   '-file-line-error',
-       \   '-synctex=1',
-       \   '-interaction=nonstopmode',
-       \   '--shell-escape',
-       \ ],
-       \ }
-let g:vimtex_compiler_latexrun = {'out_dir' : './buildtex'}
-let g:vimtex_view_method = 'zathura'
+let g:vimtex_compiler_latexmk = {
+      \ 'out_dir' : function('s:tex_build_dir'),
+      \ 'aux_dir' : function('s:tex_build_dir'),
+      \ 'options' : [
+      \   '-pdf',
+      \   '-file-line-error',
+      \   '-synctex=1',
+      \   '-interaction=nonstopmode',
+      \   '--shell-escape',
+      \ ],
+      \ }
+
 
 " snippets
 "Plug 'KeyboardFire/vim-minisnip'
@@ -99,6 +107,9 @@ Plug 'github/copilot.vim'
 Plug 'mbbill/undotree'
 nnoremap U :UndotreeToggle<CR>
 
+" Zettelkasten
+Plug 'zk-org/zk-nvim'
+
 " bot line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -109,6 +120,24 @@ nnoremap <C-h> :bprev<CR>
 nnoremap <C-l> :bnext<CR>
 
 call plug#end()
+
+" Zettelkasten initialization
+if has('nvim')
+lua << EOF
+require("zk").setup({
+  picker = "select",
+})
+EOF
+  nnoremap <leader>zn <Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>
+  nnoremap <leader>zo <Cmd>ZkNotes { sort = { 'modified' } }<CR>
+  nnoremap <leader>zf <Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>
+  nnoremap <leader>zb <Cmd>ZkBacklinks<CR>
+  nnoremap <leader>zl <Cmd>ZkLinks<CR>
+  nnoremap <leader>zt <Cmd>ZkTags<CR>
+
+  xnoremap <leader>zi :'<,'>ZkInsertLinkAtSelection { matchSelected = true }<CR>
+  xnoremap <leader>zn :'<,'>ZkNewFromTitleSelection<CR>
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Looks

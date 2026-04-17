@@ -141,9 +141,9 @@ mono indicator reverse
 ###############################################################
 # aliases
 ###############################################################
-alias axel Axel Böhm <axel.boehm@univie.ac.at>
+alias axel.boehm Axel Böhm <axel.boehm@univie.ac.at>
 alias ilaria.perugia Ilaria Perugia <ilaria.perugia@univie.ac.at>
-alias laura Laura Kanzler <laura.kanzler@univie.ac.at>
+alias laura.kanzler Laura Kanzler <laura.kanzler@univie.ac.at>
 alias mobile-print.mathematik Mobile-print Mathematik <mobile-print.mathematik@univie.ac.at>
 alias annalisa.iuorio Annalisa Iuorio <annalisa.iuorio@asc.tuwien.ac.at>
 alias josef.hofbauer Josef Hofbauer <josef.hofbauer@univie.ac.at>
@@ -158,5 +158,5 @@ alias gianluca.favre Gianluca Favre <gianluca.favre@univie.ac.at>
 alias michael.sedlmayer Michael Sedlmayer <michael.sedlmayer@univie.ac.at>
 alias matteo.tommasini Matteo Tommasini <matteo.tommasini@univie.ac.at>
 alias marco.zank Marco Zank <marco.zank@univie.ac.at>
-alias marcel Marcel Braukhoff <braukhoff@posteo.de>
+alias marcel.braukhoff Marcel Braukhoff <braukhoff@posteo.de>
 alias andrea.moiola Andrea Moiola <andrea.moiola@unipv.it>

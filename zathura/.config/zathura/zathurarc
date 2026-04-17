@@ -7,6 +7,9 @@ set window-title-home-tilde 1
 # contract $Home to tilde in status bar
 set statusbar-home-tilde 1
 
+# center vertically
+set vertical-center true
+
 # zoom
 map <C-i> zoom in
 map <C-o> zoom out
