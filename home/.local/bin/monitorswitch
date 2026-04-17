@@ -1,0 +1,6 @@
+#!/bin/sh
+if [[ $(xrandr --listactivemonitors) == *"HDMI"* ]]; then
+    exec xrandr --output HDMI-A-0 --off --output DisplayPort-2 --auto
+else
+    exec xrandr --output HDMI-A-0 --auto --output DisplayPort-2 --off
+fi

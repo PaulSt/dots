@@ -1,0 +1,42 @@
+[user]
+	email = stocker.paul@hotmail.com
+	name = Paul
+[core]
+	excludesfile = ~/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = vim
+[credential "https://github.com"]
+	helper = github
+[credential "https://gitlab.gwdg.de"]
+	helper = gwdg
+[credential "https://geras.asc.tuwien.ac.at"]
+	helper = tuwien
+
+[alias]
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[color]
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+[difftool]
+  prompt = false
+[pull]
+	rebase = true
+
+[rebase]
+    instructionFormat = %s%nexec GIT_COMMITTER_DATE=\"%aD\" GIT_COMMITTER_NAME=\"%cN\" GIT_COMMITTER_EMAIL=\"%cE\" git commit --amend --no-edit%n
+	autoStash = true
+[alias]
+    rb = rebase --interactive --committer-date-is-author-date
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[branch]
+	autoSetupRebase = remote
