@@ -107,6 +107,9 @@ Plug 'github/copilot.vim'
 Plug 'mbbill/undotree'
 nnoremap U :UndotreeToggle<CR>
 
+" teamtype
+Plug 'teamtype/teamtype-nvim'
+
 " Zettelkasten
 Plug 'zk-org/zk-nvim'
 

@@ -10,29 +10,27 @@ screens=$(echo "$allposs" | awk '/ connected/ {print $1}')
 #exec xscreensaver -nosplash &
 
 while true; do
-    #WLAN=' '
-    #WLAN+=$( iw dev wlo1 link | sed -n -e 's/^.*SSID: //p')
-    #if [ -z "$WLAN" ]; then
-        #WLAN="Not Connected"
-    #fi
-
+    WLAN=" $(iwctl station wlan0 show | awk '/Connected network/ {print $3}')"
+    if [ -z "$WLAN" ]; then
+        WLAN="Not Connected"
+    fi
     # run cat /sys/class/thermal/thermal_zone*/type to check the thermometers available
-    TEMP=$(echo $(cat /sys/class/thermal/thermal_zone0/temp) | cut -b -2)°C
-    #BATT=''
-    #BATT+=$( {acpi -b | sed 's/.*[Full|charging|unknown], \([0-9]*\)%.*/\1/gi' } || { 0 } ) + '%'
-    #if [ "$BATT" -gt "90" ]; then
-        #BATT="\f017"
-    #fi
+    TEMP=" $(echo $(cat /sys/class/thermal/thermal_zone0/temp) | cut -b -2)°C"
+    if acpi -b | grep -q "Discharging"; then
+        BATT="🔋"
+    else
+        BATT="🔌"
+    fi
+    BATT+=" $( acpi -b | sed 's/.*[Full|charging|unknown], \([0-9]*\)%.*/\1/gi' )%"
     #STATUS=$( acpi -b | sed 's/.*: \([a-zA-Z]*\),.*/\1/gi' )
     #DB=$( dropbox-cli status ) use this icon  $DB \
-    VOL=$(awk -F"[][]" '/%/ { print $2 }' <(amixer sget Master))
+    VOL=" $(awk -F"[][]" '/%/ { print $2 }' <(amixer sget Master))"
     if [ $(amixer sget Master | grep -c "\[off\]") -ge 1 ]; then
-        VOL="Mute"
+        VOL=" Mute"
     fi
-    TIME=' '
-    TIME+=$( date +"%d-%b%t%R" )
+    TIME=" $( date +"%d-%b%t%R" )"
 
-    xsetroot -name "`echo  $VOL \   $TEMP \  $TIME`"
+    xsetroot -name "`echo $WLAN \ $VOL \ $BATT \ $TEMP \ $TIME`"
     sleep 15
 done &
 
@@ -46,6 +44,11 @@ setxkbmap -layout us &
 #xset s noblank
 
 feh --no-fehbg --bg-fill "$HOME/.local/share/wallpapers/bg.jpg" &
+
+if [[ $(xrandr --listactivemonitors | grep ' DP-1') != "" ]]; then
+    xrandr --output eDP-1 --off --output DP-1 --auto 
+    xrdb -merge .Xresources4k
+fi
 
 source ~/.bashrc
 
