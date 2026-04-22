@@ -9,12 +9,14 @@ fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# ----------------------
 # jump
+# ----------------------
 # eval "$(jump shell bash)"
-# fzf
-source /usr/share/fzf/key-bindings.bash
-source /usr/share/fzf/completion.bash
+
+# ----------------------
 # trash
+# ----------------------
 #alias rm=trash
 
 # ----------------------
@@ -166,6 +168,53 @@ h() {
 
 function ff() { find . 2>/dev/null | grep -i $@; }
 
+# ----------------------
+# fzf
+# ----------------------
+eval $(fzf --bash)
+source /usr/share/fzf/key-bindings.bash
+source /usr/share/fzf/completion.bash
+ 
+export FZF_DEFAULT_OPTS='
+  --style=default
+  --layout=reverse
+  --height=40%
+  --border
+'
+
+ _fzf_preview() {
+  if [ -d "$1" ]; then
+    tree -C -L 2 "$1" 2>/dev/null | head -200
+  else
+    bat --color=always --style=numbers --line-range=:300 "$1" 2>/dev/null \
+      || sed -n "1,200p" "$1"
+  fi
+}
+export -f _fzf_preview
+
+# Uses fd, keeps paths relative, and lets gitignore-style rules apply even
+# outside a git repo.
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --no-require-git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+export FZF_CTRL_T_OPTS="
+  --scheme=path
+  --preview '_fzf_preview {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'
+"
+
+export FZF_ALT_C_OPTS="
+  --scheme=path
+  --preview '_fzf_preview {}'
+  --bind 'ctrl-/:change-preview-window(right|hidden|)'
+"
+
+fzf_cd_widget() {
+  local cmd
+  cmd="$(__fzf_cd__)" || return
+  eval "$cmd"
+}
+bind -x '"\C-a": fzf_cd_widget'
 
 # ----------------------
 # Git Helpers

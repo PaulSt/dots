@@ -39,9 +39,14 @@ done &
 setxkbmap -layout us &
 
 # for zoom screen share
-xcompmgr -c -l0 -t0 -r0 -o.00 &
+#xcompmgr -c -l0 -t0 -r0 -o.00 &
 
-~/.fehbg &
+#xset -dpms
+#xset s off
+#xset s noblank
+
+feh --no-fehbg --bg-fill "$HOME/.local/share/wallpapers/bg.jpg" &
+
 source ~/.bashrc
 
 # for gnome keyring update pam  https://wiki.archlinux.org/title/GNOME/Keyring#Automatically_change_keyring_password_with_user_password
@@ -51,5 +56,9 @@ source ~/.bashrc
 
 #eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 #export SSH_AUTH_SOCK
+
+udiskie --automount &
+mkdir -p ~/media
+ln -sfn "/run/media/$USER" "$HOME/media"
 
 exec dwm

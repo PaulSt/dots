@@ -27,7 +27,9 @@ help:
 	  "make unstow-home        remove stow links for home/" \
 	  "make restow-home        restow home/ into $$HOME" \
 	  "make st                 install st with upstream scrollback patch" \
-	  "make dwm                install dwm with local config and patches"
+	  "make dwm                install dwm with local config and patches" \
+	  "make submodules-clean   reset and clean all git submodules" 
+
 
 dry-run:
 	stow -nvR -d . -t "$(HOME_DIR)" "$(HOME_SRC)"
