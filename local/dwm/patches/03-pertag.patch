@@ -1,0 +1,115 @@
+diff --git a/dwm.c b/dwm.c
+index 1a9b959..f6d02fe 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -121,6 +121,8 @@ struct Monitor {
+ 	unsigned int seltags;
+ 	unsigned int sellt;
+ 	unsigned int tagset[2];
++	unsigned int tagsellt[32];
++	const Layout *taglt[32][2];
+ 	int showbar;
+ 	int topbar;
+ 	Client *clients;
+@@ -177,6 +179,7 @@ static void grabbuttons(Client *c, int focused);
+ static void grabkeys(void);
+ static void incnmaster(const Arg *arg);
+ static void keypress(XEvent *e);
++static unsigned int tagindex(unsigned int tagset);
+ static void killclient(const Arg *arg);
+ static void manage(Window w, XWindowAttributes *wa);
+ static void mappingnotify(XEvent *e);
+@@ -643,16 +646,22 @@ Monitor *
+ createmon(void)
+ {
+ 	Monitor *m;
++    size_t i;
+ 
+ 	m = ecalloc(1, sizeof(Monitor));
+ 	m->tagset[0] = m->tagset[1] = 1;
+ 	m->mfact = mfact;
+ 	m->nmaster = nmaster;
+ 	m->showbar = showbar;
++	for (i = 0; i < 32; i++) {
++		m->tagsellt[i] = 0;
++		m->taglt[i][0] = &layouts[0];
++		m->taglt[i][1] = &layouts[1 % LENGTH(layouts)];
++	}
+ 	m->topbar = topbar;
+-	m->lt[0] = &layouts[0];
+-	m->lt[1] = &layouts[1 % LENGTH(layouts)];
+-	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
++	m->lt[0] = m->taglt[1][0];
++	m->lt[1] = m->taglt[1][1];
++	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
+ 	return m;
+ }
+ 
+@@ -1517,13 +1526,33 @@ setfullscreen(Client *c, int fullscreen)
+ 	}
+ }
+ 
++unsigned int
++tagindex(unsigned int tagset)
++{
++	unsigned int i;
++
++	tagset &= TAGMASK;
++	if (!tagset || tagset == TAGMASK || (tagset & (tagset - 1)))
++		return 0; /* shared slot for multi-tag / all-tags views */
++
++	for (i = 0; i < LENGTH(tags); i++)
++		if (tagset == (1U << i))
++			return i + 1;
++	return 0;
++}
++
+ void
+ setlayout(const Arg *arg)
+ {
++	unsigned int idx = tagindex(selmon->tagset[selmon->seltags]);
++
+ 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
+ 		selmon->sellt ^= 1;
+ 	if (arg && arg->v)
+ 		selmon->lt[selmon->sellt] = (Layout *)arg->v;
++	selmon->tagsellt[idx] = selmon->sellt;
++	selmon->taglt[idx][0] = selmon->lt[0];
++	selmon->taglt[idx][1] = selmon->lt[1];
+ 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
+ 	if (selmon->sel)
+ 		arrange(selmon);
+@@ -1764,10 +1793,15 @@ toggletag(const Arg *arg)
+ void
+ toggleview(const Arg *arg)
+ {
++	unsigned int idx;
+ 	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
+ 
+ 	if (newtagset) {
+ 		selmon->tagset[selmon->seltags] = newtagset;
++		idx = tagindex(newtagset);
++		selmon->sellt = selmon->tagsellt[idx];
++		selmon->lt[0] = selmon->taglt[idx][0];
++		selmon->lt[1] = selmon->taglt[idx][1];
+ 		focus(NULL);
+ 		arrange(selmon);
+ 	}
+@@ -2064,11 +2098,17 @@ updatewmhints(Client *c)
+ void
+ view(const Arg *arg)
+ {
++	unsigned int idx;
++
+ 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
+ 		return;
+ 	selmon->seltags ^= 1; /* toggle sel tagset */
+ 	if (arg->ui & TAGMASK)
+ 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
++	idx = tagindex(selmon->tagset[selmon->seltags]);
++	selmon->sellt = selmon->tagsellt[idx];
++	selmon->lt[0] = selmon->taglt[idx][0];
++	selmon->lt[1] = selmon->taglt[idx][1];
+ 	focus(NULL);
+ 	arrange(selmon);
+ }
