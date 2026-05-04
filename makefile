@@ -17,7 +17,16 @@ DWM_LOCAL := $(LOCAL_SRC)/dwm
 ST_SCROLLPATCH_URL := https://st.suckless.org/patches/scrollback-reflow-standalone/st-scrollback-reflow-standalone-0.9.3.diff
 ST_SCROLLPATCH_FILE := $(ST_LOCAL)/patches/01-scroll.diff
 
-.PHONY: help dry-run home unstow-home restow-home st-scroll-patch st dwm submodules-clean
+QMK_HOME ?= $(HOME_DIR)/qmk_firmware
+QMK_KEYBOARD ?= crkbd/r2g
+QMK_KEYMAP ?= paul
+QMK_LOCAL_KEYMAP := $(LOCAL_SRC)/qmk_crkbd_r2g
+QMK_KEYMAP_DIR := $(QMK_HOME)/keyboards/$(QMK_KEYBOARD)/keymaps/$(QMK_KEYMAP)
+QMK_FLASH_LEFT_BL ?= avrdude-split-left
+QMK_FLASH_RIGHT_BL ?= avrdude-split-right
+
+.PHONY: help dry-run home unstow-home restow-home st-scroll-patch st dwm submodules-clean \
+	qmk-sync qmk-flash-both
 
 
 help:
@@ -28,6 +37,8 @@ help:
 	  "make restow-home        restow home/ into $$HOME" \
 	  "make st                 install st with upstream scrollback patch" \
 	  "make dwm                install dwm with local config and patches" \
+	  "make qmk-sync           copy local QMK keymap into ~/qmk_firmware" \
+	  "make qmk-flash-both     flash both halves; retries the second automatically" \
 	  "make submodules-clean   reset and clean all git submodules" 
 
 
@@ -89,3 +100,20 @@ dwm:
 	$(MAKE) -C "$(DWM_DIR)" clean
 	$(MAKE) -C "$(DWM_DIR)" -j"$(JOBS)"
 	sudo $(MAKE) -C "$(DWM_DIR)" PREFIX="$(SUCKLESS_PREFIX)" install
+
+
+qmk-sync: 
+	@command -v qmk >/dev/null 2>&1 || { echo "qmk CLI not found in PATH."; exit 1; }
+	@[ -d "$(QMK_HOME)" ] || { echo "QMK repo not found at $(QMK_HOME)."; exit 1; }
+	@[ -d "$(QMK_HOME)/keyboards/$(QMK_KEYBOARD)" ] || { echo "Keyboard folder missing: $(QMK_HOME)/keyboards/$(QMK_KEYBOARD)"; exit 1; }
+	@[ -d "$(QMK_LOCAL_KEYMAP)" ] || { echo "Local keymap folder missing: $(QMK_LOCAL_KEYMAP)"; exit 1; }
+	mkdir -p "$(QMK_KEYMAP_DIR)"
+	@find "$(QMK_KEYMAP_DIR)" -mindepth 1 -maxdepth 1 -exec rm -rf {} + 2>/dev/null || true
+	cp -a "$(QMK_LOCAL_KEYMAP)/." "$(QMK_KEYMAP_DIR)/"
+	@echo "Synced $(QMK_LOCAL_KEYMAP) -> $(QMK_KEYMAP_DIR)"
+
+qmk-flash-both: qmk-sync
+	cd "$(QMK_HOME)" && qmk flash -kb "$(QMK_KEYBOARD)" -km "$(QMK_KEYMAP)" -bl "$(QMK_FLASH_LEFT_BL)"
+	@echo "Flashed left half. Switch to right have now."
+	sleep 15
+	cd "$(QMK_HOME)" && qmk flash -kb "$(QMK_KEYBOARD)" -km "$(QMK_KEYMAP)" -bl "$(QMK_FLASH_RIGHT_BL)"
