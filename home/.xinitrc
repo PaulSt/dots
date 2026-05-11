@@ -23,9 +23,9 @@ while true; do
     IFACE="$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="dev"){print $(i+1); exit}}')"
 
     case "$IFACE" in
-        "") NET="󰖪 offline" ;;
-        en*|eth*) NET="󰈀 $(ip -4 -o addr show "$IFACE" | awk '{split($4,a,"/"); print a[1]; exit}')" ;;
-        *) NET=" $(iwctl station "$IFACE" show 2>/dev/null | awk -F'Connected network' '/Connected network/ {gsub(/^ +/,"",$2); print $2}')" ;;
+        "") NET=" offline" ;;
+        en*|eth*) NET=" $(ip -4 -o addr show "$IFACE" | awk '{split($4,a,"/"); print a[1]; exit}')" ;;
+        *) NET=" $(iwctl station "$IFACE" show 2>/dev/null | awk '/Connected network/ {sub(/^[[:space:]]*Connected network[[:space:]]+/,""); sub(/[[:space:]]+$/,""); print; exit}')" ;;
     esac
 
     V="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)"
@@ -36,14 +36,14 @@ while true; do
         C="$(cat "$B/capacity")"
         case "$(cat "$B/status" 2>/dev/null)" in
             Charging|Full|"Not charging") printf ' %s%%' "$C" ;;
-            *) printf '󰁹 %s%%' "$C" ;;
+            *) printf ' %s%%' "$C" ;;
         esac
         break
     done)"
 
     WEATHER="$(curl -fsS --max-time 2 'wttr.in/Vienna?format=%c%t' 2>/dev/null)"
 
-    TEMP=" $(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))°C"
+    TEMP=" $(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))°C"
     TIME=" $(date '+%d-%b %R')"
 
     STATUS="$NET$SEP$VOL"
@@ -64,12 +64,13 @@ xset -dpms
 xset s off
 xset s noblank
 
-feh --no-fehbg --bg-fill "$HOME/.local/share/wallpapers/bg.jpg" &
 
 if [[ $(xrandr --listactivemonitors | grep ' DP-1') != "" ]]; then
     xrandr --output eDP-1 --off --output DP-1 --auto
     xrdb -merge .Xresources4k
 fi
+
+feh --no-fehbg --bg-fill "$HOME/.local/share/wallpapers/bg.jpg" &
 
 source ~/.bashrc
 
