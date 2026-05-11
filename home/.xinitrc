@@ -31,12 +31,27 @@ while true; do
     V="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)"
     echo "$V" | grep -q MUTED && VOL=" mute" || VOL=" $(echo "$V" | awk '{printf "%d%%", $2*100}')"
 
+    BAT="$(for B in /sys/class/power_supply/BAT*; do
+        [ -r "$B/capacity" ] || continue
+        C="$(cat "$B/capacity")"
+        case "$(cat "$B/status" 2>/dev/null)" in
+            Charging|Full|"Not charging") printf ' %s%%' "$C" ;;
+            *) printf '󰁹 %s%%' "$C" ;;
+        esac
+        break
+    done)"
+
     WEATHER="$(curl -fsS --max-time 2 'wttr.in/Vienna?format=%c%t' 2>/dev/null)"
 
     TEMP=" $(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))°C"
     TIME=" $(date '+%d-%b %R')"
 
-    xsetroot -name "$NET$SEP$VOL$SEP$WEATHER$SEP$TEMP$SEP$TIME"
+    STATUS="$NET$SEP$VOL"
+    [ -n "$BAT" ] && STATUS="$STATUS$SEP$BAT"
+    [ -n "$WEATHER" ] && STATUS="$STATUS$SEP$WEATHER"
+    STATUS="$STATUS$SEP$TEMP$SEP$TIME"
+
+    xsetroot -name "$STATUS"
     sleep 60
 done &
 
