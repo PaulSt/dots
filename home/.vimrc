@@ -1,68 +1,97 @@
-" set leader (has to be before any leader command is defined)
-nnoremap <space> <Nop>
-let mapleader = " "
-let maplocalleader = " "
-" Necesary for lots of cool vim things
+" =============================================================================
+" Core
+" =============================================================================
 set nocompatible
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => File encoding
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader keys
+nnoremap <Space> <Nop>
+let mapleader = ' '
+let maplocalleader = ' '
+
+" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
+set fileformats=unix,dos,mac
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Install vim-plug
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =============================================================================
+" vim-plug bootstrap
+" =============================================================================
 if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall | source $MYVIMRC
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =============================================================================
+" Plugins
+" =============================================================================
 call plug#begin('~/.vim/plugged')
 
-" Automatically install missing plugins on startup
-if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
-    autocmd VimEnter * PlugInstall | q
-endif
-
-" colorscheme
+" Theme
 Plug 'morhetz/gruvbox'
 
-" tags
-"Plug 'craigemery/vim-autotag'
-"Plug 'ludovicchabant/vim-gutentags'
-
-" startscreen
+" Start screen
 Plug 'mhinz/vim-startify'
 
-" autocompletion
-"Plug 'ajh17/VimCompletesMe'
+" Comments: <leader>cc, <leader>cu, ...
+Plug 'preservim/nerdcommenter'
 
-" comments with <leader> cc
-Plug 'scrooloose/nerdcommenter'
-
-" fuzzy finder
-"Plug 'ctrlpvim/ctrlp.vim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
-nnoremap <C-p> <cmd>Telescope find_files<cr>
-"nnoremap <leader>ff <cmd>Telescope find_files<cr>
-"nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-"nnoremap <leader>fb <cmd>Telescope buffers<cr>
-
-" missing notion of vim
+" Motions
 Plug 'justinmk/vim-sneak'
 
-" latex
+" LaTeX
 Plug 'lervag/vimtex'
+
+" Markdown / Obsidian notes in plain Vim
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
+
+" Zen mode
+Plug 'junegunn/goyo.vim'
+
+" Marks
+Plug 'kshenoy/vim-signature'
+
+" GitHub Copilot
+Plug 'github/copilot.vim'
+
+" Undo tree
+Plug 'mbbill/undotree'
+
+" Status line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Neovim-only plugins. Keep these guarded so the same file is safe in Vim.
+if has('nvim')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  Plug 'teamtype/teamtype-nvim'
+
+  " If you want deep Obsidian integration in Neovim, enable this and configure
+  " your vault path in the Lua block below.
+  " Plug 'obsidian-nvim/obsidian.nvim'
+endif
+
+call plug#end()
+
+" Install missing plugins automatically, after g:plugs has been populated.
+augroup install_missing_plugins
+  autocmd!
+  autocmd VimEnter * if exists('g:plugs') && len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | source $MYVIMRC | endif
+augroup END
+
 filetype plugin indent on
-syntax enable
+syntax on
+
+" =============================================================================
+" Plugin configuration
+" =============================================================================
+
+" vimtex
 let g:vimtex_view_method = 'zathura'
+let g:vimtex_indent_enabled = 0
+
 function! s:tex_build_dir(file_info) abort
   let l:name = get(a:file_info, 'jobname', '')
   if empty(l:name)
@@ -70,6 +99,7 @@ function! s:tex_build_dir(file_info) abort
   endif
   return 'buildtex/' . l:name
 endfunction
+
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_compiler_latexmk = {
       \ 'out_dir' : function('s:tex_build_dir'),
@@ -83,295 +113,194 @@ let g:vimtex_compiler_latexmk = {
       \ ],
       \ }
 
+" vim-markdown: Obsidian-friendly Markdown editing without taking over too much.
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_new_list_item_indent = 2
 
-" snippets
-"Plug 'KeyboardFire/vim-minisnip'
-"let g:minisnip_trigger = '<C-k>'
+" markdown-preview.nvim
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_filetypes = ['markdown']
 
-" org-mode
-"Plug 'jceb/Vim-OrgMode'
-"Plug 'tpope/vim-speeddating'
-
-" Zen Mode
-Plug 'junegunn/goyo.vim'
-"nnoremap  <leader>gg :Goyo<CR>
-nnoremap  <C-g><C-g> :Goyo<CR>
-
-" Marks
-Plug 'kshenoy/vim-signature'
-
-" Github copilot
-Plug 'github/copilot.vim'
-
-" Undo tree
-Plug 'mbbill/undotree'
-nnoremap U :UndotreeToggle<CR>
-
-" teamtype
-Plug 'teamtype/teamtype-nvim'
-
-" Zettelkasten
-Plug 'zk-org/zk-nvim'
-
-" bot line
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" airline
 let g:airline_powerline_fonts = 1
-" buffers in tabline by airline
 let g:airline#extensions#tabline#enabled = 1
-nnoremap <C-h> :bprev<CR>
-nnoremap <C-l> :bnext<CR>
 
-call plug#end()
+" Optional Neovim Obsidian setup. Uncomment the Plug line above and this block,
+" then replace the path with your vault path.
+" if has('nvim')
+" lua << EOF
+" require('obsidian').setup({
+"   workspaces = {
+"     { name = 'main', path = '~/Documents/Obsidian' },
+"   },
+" })
+" EOF
+" endif
 
-" Zettelkasten initialization
-if has('nvim')
-lua << EOF
-require("zk").setup({
-  picker = "select",
-})
-EOF
-  nnoremap <leader>zn <Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>
-  nnoremap <leader>zo <Cmd>ZkNotes { sort = { 'modified' } }<CR>
-  nnoremap <leader>zf <Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>
-  nnoremap <leader>zb <Cmd>ZkBacklinks<CR>
-  nnoremap <leader>zl <Cmd>ZkLinks<CR>
-  nnoremap <leader>zt <Cmd>ZkTags<CR>
-
-  xnoremap <leader>zi :'<,'>ZkInsertLinkAtSelection { matchSelected = true }<CR>
-  xnoremap <leader>zn :'<,'>ZkNewFromTitleSelection<CR>
-endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Looks
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" scheme
+" =============================================================================
+" Theme and UI
+" =============================================================================
 set background=dark
-colorscheme gruvbox
-set t_Co=256                "colors in terminal
-syntax enable               "syntax highlighting
+set termguicolors
+set t_Co=256
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Basics
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set encoding=utf8
+function! s:GruvboxOverrides() abort
+  " Search highlight used by * and /
+  "highlight Search    ctermfg=235 ctermbg=214 guifg=#282828 guibg=#fabd2f
+  highlight IncSearch ctermfg=235 ctermbg=208 guifg=#282828 guibg=#fe8019
+  silent! highlight CurSearch ctermfg=235 ctermbg=167 guifg=#282828 guibg=#fb4934
 
-" Set to auto read when a file is changed from the outside
+  " Comments
+  highlight Comment ctermfg=245 guifg=#928374 gui=italic cterm=italic
+  highlight! link @comment Comment
+  highlight! link @comment.documentation Comment
+endfunction
+
+augroup gruvbox_overrides
+  autocmd!
+  autocmd ColorScheme gruvbox call s:GruvboxOverrides()
+augroup END
+
+silent! colorscheme gruvbox
+call s:GruvboxOverrides()
+
+set number relativenumber
+set scrolloff=7
+set showmatch
+set matchtime=2
+set wildmenu
+set path+=**
+set lazyredraw
+
+" Search
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
+" Mouse and clipboard
+set mouse=a
+set clipboard=unnamedplus
+
+" Buffers, backup, undo
 set autoread
-
-" A buffer becomes hidden when it is abandoned
 set hidden
-
-" Turn backup off
 set nobackup
 set nowritebackup
 set noswapfile
 
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" Hide mouse when typing
-set mousehide
-
-" use mouse to scroll
-set mouse=a
-map <ScrollWheelUp> <C-Y>
-map <ScrollWheelDown> <C-E>
-
-"" highlight entire line of curser
-"set cursorline
-"" Default Colors for CursorLine
-"highlight  CursorLine cterm=underline ctermfg=none ctermbg=none
-"" Change Color when entering Insert Mode
-"autocmd InsertEnter * highlight CursorLine cterm=none ctermfg=none ctermbg=none
-"" Revert Color to default when leaving Insert Mode
-"autocmd InsertLeave * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
-
-" linenumbers
-set nu
-set number relativenumber
-nmap <C-N><C-N> :set invrelativenumber<CR>
-set rnu nu
-
-" copy to clipboard
- set clipboard=unnamedplus
-
-" Set 7 lines to the cursor - when moving vertically using j/k
-set scrolloff=7
-
-" search into subfolders when using :find
-set path+=**
-
-" Turn on the Wild menu
-set wildmenu
-" set wildmode=list:longest,full
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases 
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Makes search act like search in modern browsers
-set incsearch 
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw 
-
-" For regular expressions turn magic on
-" set magic
-
-" Show matching brackets when text indicator is over them
-set showmatch 
-
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" tab change window and set root to buffer location
-set autochdir
-map <Tab> <C-W>W:cd %:p:h<CR>:<CR>
-
-" search for tag file
-set tags=tags;~
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => persistent undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" guard for distributions lacking the 'persistent_undo' feature.
 if has('persistent_undo')
-    " define a path to store persistent undo files.
-    let target_path = expand('~/.config/vim-persisted-undo/')    " create the directory and any parent directories
-    " if the location does not exist.
-    if !isdirectory(target_path)
-        call system('mkdir -p ' . target_path)
-    endif    " point Vim to the defined undo directory.
-    let &undodir = target_path    " finally, enable undo persistence.
-    set undofile
+  let s:undo_dir = expand('~/.config/vim-persisted-undo')
+  if !isdirectory(s:undo_dir)
+    call mkdir(s:undo_dir, 'p')
+  endif
+  let &undodir = s:undo_dir
+  set undofile
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => netrw (filer) settings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =============================================================================
+" netrw
+" =============================================================================
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 0
 let g:netrw_winsize = 15
-"augroup ProjectDrawer
-"    autocmd!
-"    autocmd VimEnter * :Lexplore!
-"augroup END
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => nifty custom mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" $ is  a pain. use L instead. i never use L anyways..
+" =============================================================================
+" Editing, tabs, indentation
+" =============================================================================
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set linebreak
+set textwidth=500
+set wrap
+set autoindent
+set smartindent
+
+" LaTeX: no automatic indentation.
+augroup latex_no_autoindent
+  autocmd!
+  autocmd FileType tex,latex,plaintex setlocal noautoindent nosmartindent nocindent indentexpr=
+augroup END
+
+" Markdown / Obsidian notes: prose-friendly local settings.
+augroup markdown_notes
+  autocmd!
+  autocmd FileType markdown setlocal wrap linebreak textwidth=0 conceallevel=2
+augroup END
+
+" clang-format only for C/C++-like files.
+augroup clang_format_equalprg
+  autocmd!
+  autocmd FileType c,cpp,objc,objcpp setlocal equalprg=clang-format
+augroup END
+
+" Remove trailing whitespace on save for selected filetypes.
+function! s:StripTrailingWhitespace() abort
+  let l:view = winsaveview()
+  keeppatterns keepjumps %s/\s\+$//e
+  call winrestview(l:view)
+endfunction
+
+augroup strip_trailing_whitespace
+  autocmd!
+  autocmd FileType sh,perl,python,c,cpp autocmd BufWritePre <buffer> call s:StripTrailingWhitespace()
+augroup END
+
+" =============================================================================
+" Mappings
+" =============================================================================
+
+" Buffer navigation
+nnoremap <silent> <C-h> :bprevious<CR>
+nnoremap <silent> <C-l> :bnext<CR>
+
+" Toggle relative numbers
+nnoremap <silent> <C-n><C-n> :setlocal invrelativenumber<CR>
+
+" Telescope only exists in Neovim.
+if has('nvim')
+  nnoremap <silent> <C-p> <cmd>Telescope find_files<CR>
+  " nnoremap <silent> <leader>ff <cmd>Telescope find_files<CR>
+  " nnoremap <silent> <leader>fg <cmd>Telescope live_grep<CR>
+  " nnoremap <silent> <leader>fb <cmd>Telescope buffers<CR>
+endif
+
+" Goyo
+nnoremap <silent> <C-g><C-g> :Goyo<CR>
+
+" Undotree
+nnoremap <silent> U :UndotreeToggle<CR>
+
+" Window switching
+nnoremap <silent> <Tab> <C-w>w
+
+" German keyboard search convenience
+nnoremap - /
+
+" Faster line motion / paging. This intentionally replaces default H/L/J/K.
 noremap L $
 noremap H ^
-
-" ctrl+d, ctrl+u is unintuitive
 noremap J <C-d>
 noremap K <C-u>
 noremap <Down> <C-d>
 noremap <Up> <C-u>
-" save J
-noremap <c-j> J
+noremap <C-j> J
 
-" Go to mark using capital mark
+" Go to mark using M instead of '
 noremap M '
 
-" press j and k at the same time to get escape
-inoremap jk <esc>
-inoremap kj <esc>
+" jk / kj escape
+inoremap jk <Esc>
+inoremap kj <Esc>
 
-" :W sudo saves the file 
-" (useful for handling the permission-denied error)
+" Sudo write
 command! W w !sudo tee % > /dev/null
 
-" map / to - for faster search on german keyboard
-noremap - /
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
-
-" Be smart when using tabs ;)
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" Linebreak on 500 characters
-set linebreak
-set textwidth=500
-
-set autoindent 
-set smartindent
-
-" wrap lines
-set wrap 
-
-" special behaviour in tex files
-let g:tex_indent_brace = 0
-
-" Don't indent namespace and template
-set equalprg=clang-format
-            "\ -style='GNU'
-"function! CppNoNamespaceAndTemplateIndent()
-    "let l:cline_num = line('.')
-    "let l:cline = getline(l:cline_num)
-    "let l:pline_num = prevnonblank(l:cline_num - 1)
-    "let l:pline = getline(l:pline_num)
-    "while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
-        "let l:pline_num = prevnonblank(l:pline_num - 1)
-        "let l:pline = getline(l:pline_num)
-    "endwhile
-    "let l:retv = cindent('.')
-    "let l:pindent = indent(l:pline_num)
-    "if l:pline =~# '^\s*template.*'
-        "let l:retv = l:pindent
-    "elseif l:pline =~# '\s*typename\s*.*,\s*$'
-        "let l:retv = l:pindent
-    "elseif l:cline =~# '^\s*>\s*$'
-        "let l:retv = l:pindent - &shiftwidth
-    "elseif l:pline =~# '\s*typename\s*.*>\s*$'
-        "let l:retv = l:pindent - &shiftwidth
-    ""elseif l:pline =~# '^\s*namespace.*'
-        ""let l:retv = 0
-    ""elseif l:pline =~# '^\s*HD NGS_DLL_HEADER$'
-        ""let l:retv = l:pindent
-    "endif
-    "return l:retv
-"endfunction
-"if has("autocmd")
-    "autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=CppNoNamespaceAndTemplateIndent()
-"endif
-
-
-"" handle lambdafct indent correctly
-"autocmd BufEnter *.cpp :setlocal cindent cino=j1,(0,ws,Ws
-
-"" fct to remove trailing whitespaces
-"function! <SID>StripTrailingWhitespaces()
-    "let l = line(".")
-    "let c = col(".")
-    "%s/\s\+$//e
-    "call cursor(l, c)
-"endfun
-
-"" auto remove on save for these file types
-"autocmd FileType sh,perl,python,cpp  :call <SID>StripTrailingWhitespaces()
-
-" allows for filetype detection
-filetype off
-filetype plugin indent on
+" Tags
+set tags=tags;~
