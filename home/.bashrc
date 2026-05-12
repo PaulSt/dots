@@ -248,7 +248,7 @@ fzf_cd_widget() {
   cmd="$(__fzf_cd__)" || return
   eval "$cmd"
 }
-bind -x '"\C-a": fzf_cd_widget'
+#bind -x '"\C-a": fzf_cd_widget'
 
 # ----------------------
 # Git Helpers
