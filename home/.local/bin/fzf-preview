@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+file=${1/#\~\//$HOME}
+
+if [[ -d "$file" ]]; then
+  ls -la --color=always -- "$file"
+  exit 0
+fi
+
+if [[ ! -r "$file" ]]; then
+  echo "Not readable: $file"
+  exit 0
+fi
+
+cols=${FZF_PREVIEW_COLUMNS:-80}
+lines=${FZF_PREVIEW_LINES:-40}
+dim="${cols}x${lines}"
+
+preview_image() {
+  local img="$1"
+
+  if command -v chafa >/dev/null; then
+    chafa -f symbols -s "$dim" --animate off -- "$img"
+    echo
+  else
+    file -- "$img"
+  fi
+}
+
+mime=$(file --dereference --brief --mime-type -- "$file")
+
+case "$mime" in
+  image/*)
+    preview_image "$file"
+    ;;
+
+  application/pdf)
+    if ! command -v pdftoppm >/dev/null; then
+      echo "Install poppler for PDF previews."
+      exit 0
+    fi
+
+    cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf-pdf-preview"
+    mkdir -p "$cache"
+
+    key=$(
+      printf '%s\0%s\0%s' \
+        "$(readlink -f -- "$file" 2>/dev/null || printf '%s' "$file")" \
+        "$(stat -c %Y "$file")" \
+        "$(stat -c %s "$file")" |
+      sha256sum | cut -d' ' -f1
+    )
+
+    png="$cache/$key.png"
+
+    if [[ ! -f "$png" ]]; then
+      pdftoppm -f 1 -l 1 -singlefile -png -scale-to 1000 \
+        -- "$file" "${png%.png}" 2>/dev/null
+    fi
+
+    preview_image "$png"
+    ;;
+
+  text/*|application/json|application/xml|application/x-shellscript)
+    if command -v bat >/dev/null; then
+      bat --style=numbers --color=always --line-range :300 -- "$file"
+    else
+      sed -n '1,300p' -- "$file"
+    fi
+    ;;
+
+  *)
+    file -- "$file"
+    ;;
+esac

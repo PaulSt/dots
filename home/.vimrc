@@ -221,6 +221,8 @@ set textwidth=500
 set wrap
 set autoindent
 set smartindent
+" search for files in the directory of the current file, not the cwd of Vim.
+set autochdir
 
 " LaTeX: no automatic indentation.
 augroup latex_no_autoindent
