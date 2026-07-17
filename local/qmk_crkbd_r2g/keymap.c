@@ -3,6 +3,7 @@
 enum layers {
     _BASE,
     _FN,
+    _FKEYS,
 };
 
 #ifdef OLED_ENABLE
@@ -16,6 +17,9 @@ static void render_status(void) {
         case _FN:
             oled_write_ln_P(PSTR("FN"), false);
             break;
+        case _FKEYS:
+            oled_write_ln_P(PSTR("FKEYS"), false);
+            break;
         default:
             oled_write_ln_P(PSTR("?"), false);
             break;
@@ -27,16 +31,25 @@ static void render_status(void) {
 }
 
 static void render_fn_legend(void) {
-    if (get_highest_layer(layer_state | default_layer_state) == _FN) {
-        oled_write_ln_P(PSTR("@789*  ^{}[]"), false);
-        oled_write_ln_P(PSTR("&456+  <v^>~"), false);
-        oled_write_ln_P(PSTR("=123$  ()<>\\"), false);
-        oled_write_ln_P(PSTR("edge=RGB/boot"), false);
-    } else {
-        oled_write_ln_P(PSTR("Hold FN"), false);
-        oled_write_ln_P(PSTR("for symbol map"), false);
-        oled_write_ln_P(PSTR("thumbs fixed"), false);
-        oled_write_ln_P(PSTR("S W B E SPC"), false);
+    switch (get_highest_layer(layer_state | default_layer_state)) {
+        case _FN:
+            oled_write_ln_P(PSTR("@789*  ^{}[]"), false);
+            oled_write_ln_P(PSTR("&456+  <v^>~"), false);
+            oled_write_ln_P(PSTR("=123$  ()<>\\"), false);
+            oled_write_ln_P(PSTR("edge=RGB/boot"), false);
+            break;
+        case _FKEYS:
+            oled_write_ln_P(PSTR("F1 F2 F3 F4 F5 F6"), false);
+            oled_write_ln_P(PSTR("F7 F8 F9 F10F11F12"), false);
+            oled_write_ln_P(PSTR("Hold Space"), false);
+            oled_write_ln_P(PSTR("for BIOS keys"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("Hold FN"), false);
+            oled_write_ln_P(PSTR("for symbol map"), false);
+            oled_write_ln_P(PSTR("Hold Space"), false);
+            oled_write_ln_P(PSTR("for F1-F12"), false);
+            break;
     }
 }
 
@@ -64,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_PLUS,
         KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_MINUS,
         KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_BSLS,
-                                   KC_LSFT, KC_LGUI, KC_BSPC,                      KC_ENT,  KC_SPC,  MO(_FN)
+                                   KC_LSFT, KC_LGUI, KC_BSPC,                      KC_ENT,  LT(_FKEYS, KC_SPC), MO(_FN)
     ),
 
     [_FN] = LAYOUT_split_3x6_3(
@@ -72,5 +85,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         UG_TOGG, KC_AMPR, KC_4,    KC_5,    KC_6,    KC_QUOT,                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TILD, UG_VALU,
         UG_NEXT, KC_EQL,  KC_1,    KC_2,    KC_3,    KC_BSLS,                      KC_DLR,  KC_LPRN, KC_RPRN, KC_LT,   KC_GRV,   UG_VALD,
                                    KC_LSFT, KC_0,    KC_BSPC,                      KC_ENT,  KC_SPC,  MO(_FN)
+    ),
+
+    [_FKEYS] = LAYOUT_split_3x6_3(
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                   KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS
     )
 };
