@@ -40,27 +40,26 @@ bind 'set completion-ignore-case on'
 # ----------------------
 # helper functions
 # ----------------------
-# Open: text in nvim, everything else via xdg-open
-o() {
-  local f m
-  for f; do
-    m=$(file --mime-type -Lb -- "$f")
-    case "$m:$f" in
-      text/*|application/json:*|application/xml:*|application/*yaml:*|*:*.tex|*:*.md|*:*.py|*:*.sh|*:*.c|*:*.cpp|*:*.h|*:*.hpp)
-        nvim -- "$f" ;;
-      *)
-        xdg-open "$f" >/dev/null 2>&1 & ;;
-    esac
-  done
-}
-
 # cd and list
 cd() {
   builtin cd "$@" && ls -F
 }
 
+# open file with nvim for text files, xdg-open for others
+o() {
+  local f m
+  for f; do
+    m=$(file --mime-type -Lb -- "$f")
+    case "$m:${f,,}" in
+      text/*:*|application/json:*|application/xml:*|application/*yaml:*|*:*.tex|*:*.md|*:*.py|*:*.sh|*:*.c|*:*.cpp|*:*.h|*:*.hpp) nvim -- "$f" ;;
+      *) setsid -f xdg-open "$f" </dev/null >/dev/null 2>&1 ;;
+    esac
+  done
+}
+
 # Detached helpers
 za() { nohup zathura "$@" >/dev/null 2>&1 & }
+sy() { nohup sioyek "$@" >/dev/null 2>&1 & }
 sth() { nohup st -e "$SHELL" -lc "cd $(printf '%q' "$PWD"); exec $SHELL" >/dev/null 2>&1 & }
 
 # PDF rename
@@ -150,33 +149,6 @@ export PATH=~/.npm-global/bin:$PATH
 
 #export PATH="/usr/lib/ccache/bin/:$PATH"
 
-
-# ----------------------
-# SSH agent
-# ----------------------
-ssh_pid_file="$HOME/.config/ssh-agent.pid"
-SSH_AUTH_SOCK="$HOME/.config/ssh-agent.sock"
-if [ -z "$SSH_AGENT_PID" ]
-then
-	# no PID exported, try to get it from pidfile
-	SSH_AGENT_PID=$(cat "$ssh_pid_file")
-fi
-
-if ! kill -0 $SSH_AGENT_PID &> /dev/null
-then
-	# the agent is not running, start it
-	rm "$SSH_AUTH_SOCK" &> /dev/null
-	>&2 echo "Starting SSH agent, since it's not running; this can take a moment"
-	eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")"
-	echo "$SSH_AGENT_PID" > "$ssh_pid_file"
-	#ssh-add -A 2>/dev/null
-	ssh-add ~/.ssh/key 2>/dev/null
-
-	>&2 echo "Started ssh-agent with '$SSH_AUTH_SOCK'"
-fi
-export SSH_AGENT_PID
-export SSH_AUTH_SOCK
-
 # ----------------------
 # bash history.
 # ----------------------
@@ -198,34 +170,32 @@ h() {
 function ff() { find . 2>/dev/null | grep -i $@; }
 
 # ----------------------
-# fzf
+# fzf install: fzf fd bat chafa poppler file
 # ----------------------
 [ -r /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash
 
-export FZF_DEFAULT_OPTS='--layout=reverse --height=40% --border'
+export FZF_FILE_PREVIEW="$HOME/.local/bin/fzf-preview {}"
 
-fp() {
-  [[ -d "$1" ]] && tree -C -L 2 -- "$1" 2>/dev/null | head -200 && return
-  bat --color=always --style=numbers --line-range=:250 -- "$1" 2>/dev/null \
-    || sed -n '1,160p' -- "$1" 2>/dev/null
-}
-export -f fp
+export FZF_DEFAULT_OPTS="
+  --preview '$FZF_FILE_PREVIEW'
+  --preview-window=right:60%:wrap
+  --bind 'ctrl-/:change-preview-window(down:60%|right:60%|hidden|)'
+"
 
 cc() {
   local d
-  d="$({ echo .; fd -td --strip-cwd-prefix --no-require-git; } |
-    fzf --prompt='cd> ' --preview='fp {}')" && cd -- "$d"
+  d="$({ echo .; fd -td --hidden --follow --exclude .git --strip-cwd-prefix --no-require-git; } |
+    fzf --prompt='cd> ' \
+        --preview "$FZF_FILE_PREVIEW")" && cd -- "$d"
 }
 
 oo() {
   local f files
-  files="$(fd -tf --strip-cwd-prefix --no-require-git |
-    fzf --multi --prompt='open> ' --preview='fp {}')" || return
-
-  while IFS= read -r f; do
-    [[ -n "$f" ]] && o "$f"
-  done <<< "$files"
+  files="$(fd -tf --hidden --follow --exclude .git --strip-cwd-prefix --no-require-git |
+    fzf --multi --prompt='open> ' --preview "$FZF_FILE_PREVIEW")" || return
+  while IFS= read -r f; do [[ -n "$f" ]] && o "$f"; done <<< "$files"
 }
+
 
 # ----------------------
 # Git Helpers

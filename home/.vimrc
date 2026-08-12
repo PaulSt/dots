@@ -89,7 +89,7 @@ syntax on
 " =============================================================================
 
 " vimtex
-let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_method = 'sioyek'
 let g:vimtex_indent_enabled = 0
 
 function! s:tex_build_dir(file_info) abort
@@ -109,7 +109,7 @@ let g:vimtex_compiler_latexmk = {
       \   '-file-line-error',
       \   '-synctex=1',
       \   '-interaction=nonstopmode',
-      \   '--shell-escape',
+      \   '-shell-escape',
       \ ],
       \ }
 

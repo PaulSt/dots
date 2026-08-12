@@ -1,3 +1,6 @@
+set open-first-page false
+set continuous-hist-save true
+
 # enable copy to clipboard 
 set selection-clipboard clipboard
 
