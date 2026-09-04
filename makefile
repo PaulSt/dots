@@ -17,6 +17,10 @@ DWM_LOCAL := $(LOCAL_SRC)/dwm
 ST_SCROLLPATCH_URL := https://st.suckless.org/patches/scrollback-reflow-standalone/st-scrollback-reflow-standalone-0.9.3.diff
 ST_SCROLLPATCH_FILE := $(ST_LOCAL)/patches/01-scroll.diff
 
+RESTREAM_REF ?= main
+RESTREAM_URL ?= https://raw.githubusercontent.com/rien/reStream/$(RESTREAM_REF)/reStream.sh
+RESTREAM_BIN ?= $(HOME_DIR)/.local/bin/reStream
+
 QMK_HOME ?= $(HOME_DIR)/qmk_firmware
 QMK_KEYBOARD ?= crkbd/r2g
 QMK_KEYMAP ?= paul
@@ -26,7 +30,7 @@ QMK_FLASH_LEFT_BL ?= avrdude-split-left
 QMK_FLASH_RIGHT_BL ?= avrdude-split-right
 
 .PHONY: help dry-run home unstow-home restow-home st-scroll-patch st dwm submodules-clean \
-	qmk-sync qmk-flash-both
+	restream qmk-sync qmk-flash-both
 
 
 help:
@@ -37,6 +41,7 @@ help:
 	  "make restow-home        restow home/ into $$HOME" \
 	  "make st                 install st with upstream scrollback patch" \
 	  "make dwm                install dwm with local config and patches" \
+	  "make restream           install the current upstream reStream launcher" \
 	  "make qmk-sync           copy local QMK keymap into ~/qmk_firmware" \
 	  "make qmk-flash-both     flash both halves; retries the second automatically" \
 	  "make submodules-clean   reset and clean all git submodules" 
@@ -45,7 +50,7 @@ help:
 dry-run:
 	stow -nvR -d . -t "$(HOME_DIR)" "$(HOME_SRC)"
 
-home:
+home: restream
 	stow -vR -d . -t "$(HOME_DIR)" "$(HOME_SRC)"
 	@chmod 700 "$(HOME_DIR)/.ssh" 2>/dev/null || true
 	@if [ -f "$(HOME_DIR)/.ssh/config" ]; then chmod 600 "$(HOME_DIR)/.ssh/config"; fi
@@ -100,6 +105,18 @@ dwm:
 	$(MAKE) -C "$(DWM_DIR)" clean
 	$(MAKE) -C "$(DWM_DIR)" -j"$(JOBS)"
 	sudo $(MAKE) -C "$(DWM_DIR)" PREFIX="$(SUCKLESS_PREFIX)" install
+
+restream:
+	@command -v wget >/dev/null 2>&1 || { echo "wget is required to install reStream." >&2; exit 1; }
+	mkdir -p "$(dir $(RESTREAM_BIN))"
+	@set -eu; \
+	tmp=$$(mktemp "$(dir $(RESTREAM_BIN)).reStream.XXXXXX"); \
+	trap 'rm -f "$$tmp"' EXIT HUP INT TERM; \
+	wget -qO "$$tmp" "$(RESTREAM_URL)"; \
+	test -s "$$tmp"; \
+	chmod 755 "$$tmp"; \
+	mv "$$tmp" "$(RESTREAM_BIN)"
+	@echo "Installed reStream from $(RESTREAM_REF) to $(RESTREAM_BIN)"
 
 
 qmk-sync: 
