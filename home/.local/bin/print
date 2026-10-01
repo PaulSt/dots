@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+
+import sys
+
+if len(sys.argv) != 2:
+    print(f"usage: {sys.argv[0]} FILE.pdf", file=sys.stderr)
+    sys.exit(1)
+
+import gi
+
+gi.require_version("Gtk", "4.0")
+
+from gi.repository import Gio, GLib, Gtk
+
+
+Gtk.init()
+
+pdf = Gio.File.new_for_commandline_arg(sys.argv[1])
+dialog = Gtk.PrintDialog.new()
+dialog.set_title("Print")
+
+loop = GLib.MainLoop()
+
+
+def finished(dialog, result):
+    try:
+        dialog.print_file_finish(result)
+    except GLib.Error as error:
+        # Cancellation also arrives here; don't make it dramatic.
+        dismissed = error.matches(
+            Gtk.dialog_error_quark(), Gtk.DialogError.DISMISSED
+        )
+        cancelled = error.matches(
+            Gtk.dialog_error_quark(), Gtk.DialogError.CANCELLED
+        )
+        if not (dismissed or cancelled):
+            print(error, file=sys.stderr)
+    finally:
+        loop.quit()
+
+
+dialog.print_file(
+    None,  # parent window
+    None,  # no preset print setup: show the dialog
+    pdf,
+    None,  # cancellable
+    finished,
+)
+
+loop.run()

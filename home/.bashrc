@@ -58,7 +58,6 @@ o() {
 }
 
 # Detached helpers
-za() { nohup zathura "$@" >/dev/null 2>&1 & }
 sy() { nohup sioyek "$@" >/dev/null 2>&1 & }
 sth() { nohup st -e "$SHELL" -lc "cd $(printf '%q' "$PWD"); exec $SHELL" >/dev/null 2>&1 & }
 
