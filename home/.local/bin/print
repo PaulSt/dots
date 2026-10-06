@@ -2,8 +2,8 @@
 
 import sys
 
-if len(sys.argv) != 2:
-    print(f"usage: {sys.argv[0]} FILE.pdf", file=sys.stderr)
+if len(sys.argv) < 2:
+    print(f"usage: {sys.argv[0]} FILE.pdf [FILE.pdf ...]", file=sys.stderr)
     sys.exit(1)
 
 import gi
@@ -14,10 +14,6 @@ from gi.repository import Gio, GLib, Gtk
 
 
 Gtk.init()
-
-pdf = Gio.File.new_for_commandline_arg(sys.argv[1])
-dialog = Gtk.PrintDialog.new()
-dialog.set_title("Print")
 
 loop = GLib.MainLoop()
 
@@ -39,12 +35,16 @@ def finished(dialog, result):
         loop.quit()
 
 
-dialog.print_file(
-    None,  # parent window
-    None,  # no preset print setup: show the dialog
-    pdf,
-    None,  # cancellable
-    finished,
-)
+for filename in sys.argv[1:]:
+    pdf = Gio.File.new_for_commandline_arg(filename)
+    dialog = Gtk.PrintDialog.new()
+    dialog.set_title(f"Print: {pdf.get_basename()}")
+    dialog.print_file(
+        None,  # parent window
+        None,  # no preset print setup: show the dialog
+        pdf,
+        None,  # cancellable
+        finished,
+    )
 
-loop.run()
+    loop.run()
