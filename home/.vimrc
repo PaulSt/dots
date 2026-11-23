@@ -101,11 +101,13 @@ function! s:tex_build_dir(file_info) abort
 endfunction
 
 let g:vimtex_compiler_method = 'latexmk'
+let g:vimtex_compiler_latexmk_engines = {
+      \ '_' : '-xelatex',
+      \ }
 let g:vimtex_compiler_latexmk = {
       \ 'out_dir' : function('s:tex_build_dir'),
       \ 'aux_dir' : function('s:tex_build_dir'),
       \ 'options' : [
-      \   '-pdf',
       \   '-file-line-error',
       \   '-synctex=1',
       \   '-interaction=nonstopmode',
