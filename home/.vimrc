@@ -53,7 +53,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'kshenoy/vim-signature'
 
 " GitHub Copilot
-Plug 'github/copilot.vim'
+"Plug 'github/copilot.vim'
 
 " Undo tree
 Plug 'mbbill/undotree'
